@@ -45,10 +45,11 @@ Jangan mengubah data `A4:J28` dan parameter `C51:C52` — kunci validasi membaca
 
 Buka sheet `3_Validasi`:
 
-- kolom **E** → `BENAR` / `SALAH` per tugas;
+- kolom **E** → `KOSONG` (belum diisi) / `BENAR` / `SALAH` per tugas;
 - **SKOR REKAP** → jumlah benar dari 16 (format `x / 16 benar`);
 - **BARIS KOLOM TOTAL (J) BENAR** → harus 24/24;
-- **STATUS AKHIR** → `LULUS SEMPURNA`, `LULUS BERSYARAT`, atau `BELUM LULUS`.
+- **STATUS AKHIR** → `LULUS SEMPURNA`, `LULUS BERSYARAT`, atau `BELUM LULUS`;
+- **Belum diisi (KOSONG)** → jumlah tugas yang belum kamu isi (bukan salah).
 
 Kriteria lulus: 16/16 rekap benar **dan** 24/24 baris Total benar.
 Skor 13–15 dengan 20+ baris benar = lulus bersyarat; perbaiki yang salah sebelum ke level 2.
@@ -56,6 +57,8 @@ Skor 13–15 dengan 20+ baris benar = lulus bersyarat; perbaiki yang salah sebel
 ## Kalau hasilnya aneh
 
 - **Hampir semua SALAH padahal merasa benar** → kolom Total (J) belum benar. Cek `24/24` dulu.
+- **Kolom Kunci menampilkan `#DIV/0!` sebelum kamu isi apa pun** → normal: AVERAGE/AVERAGEIF
+  atas kolom Total yang masih kosong. Statusnya tetap `KOSONG`. Kunci terisi begitu kolom J selesai.
 - **Muncul `#DIV/0!` di sheet 2** → ada pembagian dengan sel kosong; kerjakan berurutan dari tugas 1.
 - **Ingin melihat kunci** → kolom D dan H di sheet `3_Validasi` disembunyikan. Blok kolom C:D → klik
   kanan → *Unhide*. Sebaiknya hanya setelah mencoba serius: kuncimu hilang kalau langsung dilihat.
