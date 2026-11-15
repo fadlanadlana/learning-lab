@@ -14,8 +14,13 @@ learning-lab/
 │   └── README.md
 └── spreadsheet/            # latihan konsep & rumus spreadsheet (berlaku di Excel, Google Sheets, LibreOffice)
     ├── README.md
-    └── level-1/
-        ├── level-1-laporan-penjualan.xlsx
+    ├── level-1/
+    │   ├── level-1-laporan-penjualan.xlsx
+    │   └── README.md
+    └── level-2/
+        ├── level-2-kinerja-kampanye-digital.xlsx
+        ├── level-2-engagement-media-sosial.xlsx
+        ├── level-2-funnel-lead-campaign.xlsx
         └── README.md
 ```
 
@@ -31,7 +36,7 @@ learning-lab/
 | Level | Nama | Fokus | Status |
 |---|---|---|---|
 | 1 | Pemula | rumus dasar, referensi absolut, IF, format angka | spreadsheet: tersedia |
-| 2 | Menengah | SUMIFS bertingkat, lookup (VLOOKUP/XLOOKUP/INDEX-MATCH), teks, tanggal | belum |
+| 2 | Menengah | SUMIFS bertingkat, lookup (VLOOKUP/XLOOKUP/INDEX-MATCH), teks, tanggal | spreadsheet: tersedia (3 file tema marketing) |
 | 3 | Mahir | PivotTable, Power Query, tabel terstruktur, dashboard | belum |
 | 4 | Expert | VBA/Apps Script, DAX, otomasi end-to-end, model keuangan | belum |
 

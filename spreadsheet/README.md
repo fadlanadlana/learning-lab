@@ -14,9 +14,9 @@ Untuk latihan fitur khas Excel (PivotTable, Power Query, VBA, DAX) gunakan [`../
 
 ## Level berikutnya (belum dibuat)
 
-- **level-2 / Menengah** — SUMIFS & COUNTIFS multi-kriteria, VLOOKUP/XLOOKUP, INDEX-MATCH,
-  IF bertingkat vs IFS, penanganan tanggal (EOMONTH, DATEDIF), teks (LEFT/MID/TEXTJOIN/TRIM),
-  data validation dropdown, conditional formatting.
+- **level-2 / Menengah** — tersedia 3 file bertema marketing (kinerja kampanye digital, engagement
+  media sosial, funnel lead campaign): SUMIFS & COUNTIFS multi-kriteria, VLOOKUP, INDEX-MATCH,
+  IF bertingkat, PROPER/TRIM, pengurangan tanggal, IFERROR. Lihat [`level-2/`](level-2/).
 - **level-3 / Mahir** — PivotTable dari data mentah, tabel terstruktur, ringkasan multi-dimensi,
   dashboard ringkas, what-if/scenario.
 - **level-4 / Expert** — model 3-statement sederhana, audit formula, penanganan data besar,
