@@ -1,0 +1,31 @@
+# spreadsheet/ — konsep & rumus spreadsheet
+
+Yang dilatih di sini adalah logika dan rumusnya, bukan menunya. Setiap file `.xlsx` di folder ini
+harus bisa dibuka dan dikerjakan apa adanya di **Microsoft Excel**, **Google Sheets**, maupun
+**LibreOffice Calc** — satu-satunya perbedaan yang diizinkan adalah tata letak UI.
+
+Untuk latihan fitur khas Excel (PivotTable, Power Query, VBA, DAX) gunakan [`../excel/`](../excel/).
+
+## Level tersedia
+
+- [`level-1/`](level-1/) — Laporan Penjualan Tim Sales: SUM, AVERAGE, MIN, MAX, COUNT, SUMIF,
+  COUNTIF, AVERAGEIF, IF, IFERROR, ROUND, persentase, referensi absolut. 24 baris data, 16 tugas
+  rekap, validasi otomatis + skor.
+
+## Level berikutnya (belum dibuat)
+
+- **level-2 / Menengah** — SUMIFS & COUNTIFS multi-kriteria, VLOOKUP/XLOOKUP, INDEX-MATCH,
+  IF bertingkat vs IFS, penanganan tanggal (EOMONTH, DATEDIF), teks (LEFT/MID/TEXTJOIN/TRIM),
+  data validation dropdown, conditional formatting.
+- **level-3 / Mahir** — PivotTable dari data mentah, tabel terstruktur, ringkasan multi-dimensi,
+  dashboard ringkas, what-if/scenario.
+- **level-4 / Expert** — model 3-statement sederhana, audit formula, penanganan data besar,
+  jembatan ke SQL/Python (data yang sama dikerjakan ulang di sana).
+
+## Konvensi tiap level
+
+Setiap file punya 3 sheet dengan urutan tetap:
+
+1. `1_Brief` — masalah kerja nyata, tujuan yang ingin dicapai, aturan, kriteria lulus.
+2. `2_Latihan` — data mentah + sel kuning yang harus diisi dengan rumus.
+3. `3_Validasi` — jawaban dibandingkan dengan rumus kunci, keluar BENAR/SALAH + skor.

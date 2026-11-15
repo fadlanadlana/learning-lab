@@ -1,0 +1,16 @@
+# Excel lock / temp files
+~$*.xlsx
+~$*.xls
+~$*.csv
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python (dipakai di jalur python nanti)
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ipynb_checkpoints/
