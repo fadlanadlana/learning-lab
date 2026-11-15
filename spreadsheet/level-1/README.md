@@ -7,7 +7,7 @@ Satu file, tiga sheet:
 | Sheet | Isi |
 |---|---|
 | `1_Brief` | Masalah kerja, tujuan, 4 aturan main, kriteria lulus |
-| `2_Latihan` | 24 baris data penjualan Oktober 2026 + kolom Total (J5:J28) + 16 tugas rekap (C32:C47) |
+| `2_Latihan` | 24 baris data penjualan Oktober 2026 + kolom Total (J5:J28) + 16 tugas rekap (F32:F47) |
 | `3_Validasi` | Bandingkan jawabanmu dengan rumus kunci: BENAR/SALAH per tugas, cek kolom Total baris per baris, skor total |
 
 ## Skenario
@@ -20,7 +20,7 @@ dengan rumus, bukan angka ketik manual.
 
 1. **Kolom Total Penjualan (J5:J28)** — 24 sel.
    Total = Qty × Harga Satuan × (1 − Diskon). Contoh baris pertama: `=G5*H5*(1-I5)`, lalu copy ke bawah.
-2. **Blok REKAP (C32:C47)** — 16 sel, masing-masing satu rumus:
+2. **Blok REKAP (F32:F47)** — 16 sel, masing-masing satu rumus:
 
 | # | Tugas | Rumus |
 |---|---|---|
@@ -31,15 +31,15 @@ dengan rumus, bukan angka ketik manual.
 | 5 | Jumlah transaksi | `COUNT` |
 | 6–8 | Total penjualan Cabang Jakarta / Bandung / Surabaya | `SUMIF` |
 | 9 | Jumlah transaksi Sales S01 | `COUNTIF` |
-| 10 | Jumlah transaksi di atas ambang (sel B52) | `COUNTIF` + `">"&` |
+| 10 | Jumlah transaksi di atas ambang (sel C52) | `COUNTIF` + `">"&` |
 | 11 | Rata-rata nilai transaksi Sales S02 | `AVERAGEIF` |
 | 12 | Total unit (Qty) terjual | `SUM` |
 | 13 | Kontribusi Cabang Jakarta (%) | pembagian + referensi absolut `$` |
 | 14 | Rata-rata dibulatkan ke ribuan terdekat | `ROUND(...,-3)` |
-| 15 | Evaluasi target vs parameter B51 | `IF` |
+| 15 | Evaluasi target vs parameter C51 | `IF` |
 | 16 | Rata-rata transaksi Sales S05 (tidak ada di data) | `IFERROR` + `AVERAGEIF` |
 
-Jangan mengubah data `A4:J28` dan parameter `B51:B52` — kunci validasi membaca keduanya.
+Jangan mengubah data `A4:J28` dan parameter `C51:C52` — kunci validasi membaca keduanya.
 
 ## Cara menilai diri
 
