@@ -9,12 +9,14 @@ terhitung saat disimpan di aplikasi spreadsheet). File latihan aslinya tetap kos
 | File | Kolom isian | Rekap | Status |
 |---|---|---|---|
 | `level-1/level-1-laporan-penjualan.xlsx` | Total 24/24 | 16/16 BENAR | LULUS SEMPURNA |
-| `level-2/level-2-kinerja-kampanye-digital.xlsx` | ROAS **0/30** (belum diisi) | 14/14 BENAR | belum lengkap |
+| `level-2/level-2-kinerja-kampanye-digital.xlsx` | ROAS 30/30 | 14/14 BENAR | LULUS SEMPURNA |
 | `level-2/level-2-engagement-media-sosial.xlsx` | Engagement Rate 24/24 | 14/14 BENAR | lengkap |
 | `level-2/level-2-funnel-lead-campaign.xlsx` | Umur Lead 28/28 | 14/14 BENAR | lengkap |
 
-Catatan: status di file `level-2` yang dikerjakan ditulis "LULUS BERSYARAT" padahal kolom isian
-sudah penuh. Itu bug rumus STATUS AKHIR (membandingkan teks "24 / 24" dengan angka 24). File latihan
-di repo sudah diperbaiki; hasil per tugas di kolom E tetap sah.
+Catatan: sel cek kolom isian dan rumus STATUS AKHIR di file-file ini sempat salah (membandingkan
+teks "30 / 30" dengan angka 30, sehingga status selalu "LULUS BERSYARAT" walau isian penuh). Pada
+salinan di folder ini rumusnya sudah dirapikan (sel cek jadi angka murni) dan file diset
+menghitung ulang saat dibuka, sehingga status menampilkan LULUS SEMPURNA. Hasil per tugas di kolom E
+tidak diubah. File latihan kosong di `spreadsheet/level-2/` sudah versi benar.
 
-Sisa pekerjaan level 2: isi kolom ROAS (K5:K34) di file kinerja kampanye digital, 30 sel.
+Status: level 1 dan level 2 selesai semua (4 file, 58 tugas rekap, semua BENAR).
