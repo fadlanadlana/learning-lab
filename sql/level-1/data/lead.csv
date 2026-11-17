@@ -1,0 +1,29 @@
+tanggal_masuk,id_lead,nama,kode_sumber,kota,status,nilai
+2026-09-01,LD-001,  Budi Santoso,SRC-W,Jakarta,Won,99000000
+2026-09-03,LD-002,RINA KARTIKA,SRC-E,Bandung,Qualified,36000000
+2026-09-05,LD-003,Agus Prasetyo  ,SRC-A,Surabaya,Lost,0
+2026-09-07,LD-004,dewi lestari,SRC-R,Medan,New,0
+2026-09-09,LD-005,Fajar  Nugroho,SRC-W,Makassar,Qualified,69000000
+2026-09-11,LD-006,Siti Aminah,SRC-E,Jakarta,Won,117000000
+2026-09-13,LD-007,  Hendra Wijaya,SRC-A,Bandung,New,0
+2026-09-15,LD-008,MAYA PUSPITA,SRC-R,Surabaya,Lost,0
+2026-09-17,LD-009,Yoga Pratama  ,SRC-W,Medan,Won,68000000
+2026-09-19,LD-010,indah permata,SRC-E,Makassar,Qualified,28000000
+2026-09-21,LD-011,Rizky  Ramadhan,SRC-A,Jakarta,Lost,0
+2026-09-23,LD-012,Nadia Safira,SRC-R,Bandung,New,0
+2026-09-25,LD-013,  Bayu Setiawan,SRC-W,Surabaya,Qualified,26000000
+2026-09-27,LD-014,LARAS WULANDARI,SRC-E,Medan,Won,71000000
+2026-09-29,LD-015,Budi Santoso  ,SRC-A,Makassar,New,0
+2026-10-01,LD-016,rina kartika,SRC-R,Jakarta,Lost,0
+2026-10-03,LD-017,Agus  Prasetyo,SRC-W,Bandung,Won,92000000
+2026-10-05,LD-018,Dewi Lestari,SRC-E,Surabaya,Qualified,42000000
+2026-10-07,LD-019,  Fajar Nugroho,SRC-A,Medan,Lost,0
+2026-10-09,LD-020,SITI AMINAH,SRC-R,Makassar,New,0
+2026-10-11,LD-021,Hendra Wijaya  ,SRC-W,Jakarta,Qualified,56000000
+2026-10-13,LD-022,maya puspita,SRC-E,Bandung,Won,116000000
+2026-10-15,LD-023,Yoga  Pratama,SRC-A,Surabaya,New,0
+2026-10-17,LD-024,Indah Permata,SRC-R,Medan,Lost,0
+2026-10-19,LD-025,  Rizky Ramadhan,SRC-W,Makassar,Won,49000000
+2026-10-21,LD-026,NADIA SAFIRA,SRC-E,Jakarta,Qualified,78000000
+2026-10-23,LD-027,Bayu Setiawan  ,SRC-A,Bandung,Lost,0
+2026-10-25,LD-028,laras wulandari,SRC-R,Surabaya,New,0

@@ -1,0 +1,141 @@
+#!/usr/bin/env python3
+"""Penilai otomatis jalur SQL level 1.
+
+Cara pakai:  python3 cek_jawaban.py            (dari folder sql/level-1)
+Semua CSV di data/ dimuat ke database SQLite sementara, query di jawaban.sql dijalankan,
+lalu hasilnya dibandingkan dengan kunci. Tidak butuh library tambahan (stdlib saja).
+"""
+import csv
+import os
+import re
+import sqlite3
+import sys
+
+BASE = os.path.dirname(os.path.abspath(__file__))
+DATA = os.path.join(BASE, "data")
+JAWABAN = os.path.join(BASE, "jawaban.sql")
+TABEL = ["penjualan", "kampanye_iklan", "lead", "master_sumber"]
+MARKER = re.compile(r"^--\s*=+\s*SOAL\s+(\d+)\s*=+\s*$", re.M)
+
+# ---------------------------------------------------------------- kunci jawaban (jangan diubah)
+KUNCI = {
+    1: ("SELECT SUM(revenue) FROM penjualan;", False),
+    2: ("SELECT region, SUM(qty) AS total_qty FROM penjualan GROUP BY region ORDER BY total_qty DESC;", True),
+    3: ("SELECT id, produk, revenue FROM penjualan ORDER BY revenue DESC LIMIT 5;", True),
+    4: ("SELECT COUNT(*) FROM penjualan WHERE diskon >= 0.1;", False),
+    5: ("SELECT ROUND(AVG(diskon), 4) FROM penjualan WHERE kanal = 'Marketplace';", False),
+    6: ("SELECT bulan, SUM(revenue) AS total_revenue FROM penjualan GROUP BY bulan ORDER BY bulan ASC;", True),
+    7: ("SELECT region FROM penjualan GROUP BY region HAVING AVG(revenue) > 5000000 ORDER BY region;", True),
+    8: ("SELECT COUNT(DISTINCT produk) FROM penjualan;", False),
+    9: ("SELECT kanal, SUM(biaya) AS total_biaya, SUM(revenue) AS total_revenue, "
+        "ROUND(1.0*SUM(revenue)/SUM(biaya), 2) AS roas FROM kampanye_iklan GROUP BY kanal "
+        "ORDER BY roas DESC;", True),
+    10: ("SELECT m.nama_sumber, COUNT(*) AS jumlah_won FROM lead l "
+         "JOIN master_sumber m ON m.kode_sumber = l.kode_sumber WHERE l.status = 'Won' "
+         "GROUP BY m.nama_sumber ORDER BY jumlah_won DESC;", True),
+    11: ("SELECT id_lead, nama, nilai, CASE WHEN nilai >= 50000000 THEN 'BESAR' "
+         "WHEN nilai >= 10000000 THEN 'MENENGAH' ELSE 'KECIL' END AS kategori FROM lead "
+         "ORDER BY nilai DESC LIMIT 5;", True),
+    12: ("SELECT kanal, ROUND(1.0*SUM(revenue)/SUM(biaya), 2) AS roas FROM kampanye_iklan "
+         "GROUP BY kanal ORDER BY roas DESC LIMIT 1;", False),
+}
+
+
+def bangun_db():
+    con = sqlite3.connect(":memory:")
+    for t in TABEL:
+        with open(os.path.join(DATA, t + ".csv"), encoding="utf-8") as f:
+            rows = list(csv.reader(f))
+        header, isi = rows[0], rows[1:]
+        kolom = ", ".join('"%s"' % c for c in header)
+        con.execute("CREATE TABLE %s (%s)" % (t, kolom))
+        con.executemany("INSERT INTO %s VALUES (%s)" % (t, ",".join("?" * len(header))), isi)
+    con.commit()
+    return con
+
+
+def baca_jawaban():
+    if not os.path.exists(JAWABAN):
+        return {}
+    teks = open(JAWABAN, encoding="utf-8").read()
+    pos = [(m.start(), int(m.group(1))) for m in MARKER.finditer(teks)]
+    pos.append((len(teks), None))
+    out = {}
+    for i in range(len(pos) - 1):
+        awal, nomor = pos[i]
+        akhir = pos[i + 1][0]
+        blok = teks[awal:akhir]
+        blok = MARKER.sub("", blok, count=1)
+        blok = "\n".join(l for l in blok.splitlines() if not l.strip().startswith("--"))
+        blok = blok.strip().rstrip(";").strip()
+        out[nomor] = blok
+    return out
+
+
+def norm(v):
+    if v is None:
+        return None
+    if isinstance(v, (int, float)):
+        return round(float(v), 4)
+    s = str(v).strip()
+    try:
+        return round(float(s), 4)
+    except ValueError:
+        return s
+
+
+def sama(a, b, urut):
+    if len(a) != len(b):
+        return False, "jumlah baris beda (%d vs %d)" % (len(a), len(b))
+    if a and len(a[0]) != len(b[0]):
+        return False, "jumlah kolom beda (%d vs %d)" % (len(a[0]), len(b[0]))
+    na = [[norm(x) for x in row] for row in a]
+    nb = [[norm(x) for x in row] for row in b]
+    if urut:
+        beda = [i for i in range(len(na)) if na[i] != nb[i]]
+        return (not beda), ("baris ke-%d beda: %s vs %s" % (beda[0] + 1, na[beda[0]], nb[beda[0]])
+                            if beda else "")
+    if sorted(map(str, na)) != sorted(map(str, nb)):
+        hanya_a = [r for r in na if str(r) not in [str(x) for x in nb]][:2]
+        hanya_b = [r for r in nb if str(r) not in [str(x) for x in na]][:2]
+        return False, "isi beda. punyamu %s | kunci %s" % (hanya_a, hanya_b)
+    return True, ""
+
+
+def main():
+    con = bangun_db()
+    jawab = baca_jawaban()
+    benar = 0
+    total = len(KUNCI)
+    print("Penilai jawaban SQL level 1 — %d soal\n" % total)
+    for no in sorted(KUNCI):
+        q, urut = KUNCI[no]
+        milik = jawab.get(no, "")
+        if not milik:
+            print("%2d. KOSONG   (belum diisi)" % no)
+            continue
+        try:
+            hasil = con.execute(milik).fetchall()
+        except Exception as e:
+            print("%2d. SALAH    query error: %s" % (no, str(e)[:90]))
+            continue
+        kunci = con.execute(q).fetchall()
+        ok, pesan = sama(hasil, kunci, urut)
+        if ok:
+            benar += 1
+            print("%2d. BENAR    (%d baris)" % (no, len(hasil)))
+        else:
+            print("%2d. SALAH    %s" % (no, pesan))
+    print("\nSKOR: %d / %d benar" % (benar, total))
+    if benar == total:
+        print("STATUS: LULUS SEMPURNA - lanjut ke sql/level-2")
+    elif benar >= total - 2:
+        print("STATUS: LULUS BERSYARAT - perbaiki yang SALAH")
+    else:
+        print("STATUS: BELUM LULUS - ulangi soal yang SALAH")
+    con.close()
+    return 0 if benar == total else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

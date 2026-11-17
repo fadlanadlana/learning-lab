@@ -11,17 +11,15 @@ Repo: <https://github.com/fadlanadlana/learning-lab>
 ```
 learning-lab/
 ├── excel/                  # latihan khusus Microsoft Excel (PivotTable, Power Query, VBA, fungsi Excel-only)
-│   └── README.md
-└── spreadsheet/            # latihan konsep & rumus spreadsheet (berlaku di Excel, Google Sheets, LibreOffice)
-    ├── README.md
-    ├── level-1/
-    │   ├── level-1-laporan-penjualan.xlsx
-    │   └── README.md
-    └── level-2/
-        ├── level-2-kinerja-kampanye-digital.xlsx
-        ├── level-2-engagement-media-sosial.xlsx
-        ├── level-2-funnel-lead-campaign.xlsx
-        └── README.md
+├── spreadsheet/            # rumus & analisis spreadsheet (Excel, Google Sheets, LibreOffice)
+│   ├── level-1/            # pemula   : 1 workbook, 16 tugas
+│   ├── level-2/            # menengah : 3 workbook tema marketing, 14 tugas/file
+│   ├── level-3/            # mahir    : 2 workbook (dashboard PivotTable, pembersihan data)
+│   └── selesai/            # salinan hasil pengerjaan (bukti lulus)
+├── sql/
+│   └── level-1/            # 12 soal + cek_jawaban.py (SQLite) + data/*.csv
+└── python/
+    └── level-1/            # 12 soal + cek_jawaban.py + data/*.csv
 ```
 
 `excel/` dan `spreadsheet/` sengaja dipisah:
@@ -37,11 +35,16 @@ learning-lab/
 |---|---|---|---|
 | 1 | Pemula | rumus dasar, referensi absolut, IF, format angka | spreadsheet: tersedia |
 | 2 | Menengah | SUMIFS bertingkat, lookup (VLOOKUP/XLOOKUP/INDEX-MATCH), teks, tanggal | spreadsheet: tersedia (3 file tema marketing) |
-| 3 | Mahir | PivotTable, Power Query, tabel terstruktur, dashboard | belum |
+| 3 | Mahir | PivotTable, Power Query, SUMPRODUCT, kualitas data | spreadsheet: tersedia (2 file) |
 | 4 | Expert | VBA/Apps Script, DAX, otomasi end-to-end, model keuangan | belum |
 
-Jalur SQL dan Python belum dibuat; urutannya setelah spreadsheet level 2 (lihat `01_Roadmap.md`
-di vault Obsidian pribadi).
+| Jalur | Level 1 | Cara menilai |
+|---|---|---|
+| sql | tersedia (12 soal) | `python3 cek_jawaban.py` — query dijalankan di SQLite, hasil dibandingkan dengan kunci |
+| python | tersedia (12 soal) | `python3 cek_jawaban.py` — fungsimu dipanggil, hasil dibandingkan dengan kunci |
+
+Ketiga jalur memakai dataset yang sama (penjualan, kampanye iklan, lead), jadi satu angka bisa
+dikerjakan dengan SUMIFS di spreadsheet, GROUP BY di SQL, dan dict comprehension di Python.
 
 ## Cara memakai file latihan
 

@@ -17,8 +17,9 @@ Untuk latihan fitur khas Excel (PivotTable, Power Query, VBA, DAX) gunakan [`../
 - **level-2 / Menengah** — tersedia 3 file bertema marketing (kinerja kampanye digital, engagement
   media sosial, funnel lead campaign): SUMIFS & COUNTIFS multi-kriteria, VLOOKUP, INDEX-MATCH,
   IF bertingkat, PROPER/TRIM, pengurangan tanggal, IFERROR. Lihat [`level-2/`](level-2/).
-- **level-3 / Mahir** — PivotTable dari data mentah, tabel terstruktur, ringkasan multi-dimensi,
-  dashboard ringkas, what-if/scenario.
+- **level-3 / Mahir** — tersedia 2 file: `level-3-dashboard-penjualan-pivot.xlsx` (PivotTable,
+  SUMIFS bertingkat, growth, SUMPRODUCT unik) dan `level-3-pembersihan-data.xlsx` (duplikat,
+  ISTEXT, TRIM/LEN, Power Query). Lihat [`level-3/`](level-3/).
 - **level-4 / Expert** — model 3-statement sederhana, audit formula, penanganan data besar,
   jembatan ke SQL/Python (data yang sama dikerjakan ulang di sana).
 

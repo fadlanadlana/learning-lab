@@ -1,0 +1,61 @@
+id,tanggal,bulan,region,kanal,produk,qty,harga,diskon,revenue
+1,2026-08-01,2026-08,Jawa Barat,Distributor,PR-02 Kaos Polos,21,95000,0,1995000
+2,2026-08-02,2026-08,Jawa Timur,Retail,PR-03 Jaket Bomber,31,420000,0.12,11458000
+3,2026-08-03,2026-08,Sumatera,Marketplace,PR-04 Celana Chino,16,310000,0,4960000
+4,2026-08-04,2026-08,Jabodetabek,Distributor,PR-05 Sepatu Sneaker,6,750000,0.05,4275000
+5,2026-08-05,2026-08,Jawa Barat,Retail,PR-06 Tas Kanvas,35,235000,0.15,6991000
+6,2026-08-06,2026-08,Jawa Timur,Marketplace,PR-01 Kemeja Formal,13,285000,0.15,3149000
+7,2026-08-07,2026-08,Sumatera,Distributor,PR-02 Kaos Polos,3,95000,0,285000
+8,2026-08-08,2026-08,Jabodetabek,Retail,PR-03 Jaket Bomber,19,420000,0.075,7382000
+9,2026-08-09,2026-08,Jawa Barat,Marketplace,PR-04 Celana Chino,30,310000,0.075,8602000
+10,2026-08-10,2026-08,Jawa Timur,Distributor,PR-05 Sepatu Sneaker,32,750000,0.075,22200000
+11,2026-08-11,2026-08,Sumatera,Retail,PR-06 Tas Kanvas,23,235000,0.05,5135000
+12,2026-08-12,2026-08,Jabodetabek,Marketplace,PR-01 Kemeja Formal,26,285000,0,7410000
+13,2026-09-01,2026-09,Jawa Barat,Distributor,PR-02 Kaos Polos,19,95000,0.1,1624000
+14,2026-09-02,2026-09,Jawa Timur,Retail,PR-03 Jaket Bomber,14,420000,0.05,5586000
+15,2026-09-03,2026-09,Sumatera,Marketplace,PR-04 Celana Chino,32,310000,0.12,8730000
+16,2026-09-04,2026-09,Jabodetabek,Distributor,PR-05 Sepatu Sneaker,28,750000,0,21000000
+17,2026-09-05,2026-09,Jawa Barat,Retail,PR-06 Tas Kanvas,25,235000,0,5875000
+18,2026-09-06,2026-09,Jawa Timur,Marketplace,PR-01 Kemeja Formal,11,285000,0.15,2665000
+19,2026-09-07,2026-09,Sumatera,Distributor,PR-02 Kaos Polos,33,95000,0.15,2665000
+20,2026-09-08,2026-09,Jabodetabek,Retail,PR-03 Jaket Bomber,6,420000,0.15,2142000
+21,2026-09-09,2026-09,Jawa Barat,Marketplace,PR-04 Celana Chino,3,310000,0.15,790000
+22,2026-09-10,2026-09,Jawa Timur,Distributor,PR-05 Sepatu Sneaker,12,750000,0.05,8550000
+23,2026-09-11,2026-09,Sumatera,Retail,PR-06 Tas Kanvas,19,235000,0.05,4242000
+24,2026-09-12,2026-09,Jabodetabek,Marketplace,PR-01 Kemeja Formal,28,285000,0.15,6783000
+25,2026-09-13,2026-09,Jawa Barat,Distributor,PR-02 Kaos Polos,30,95000,0.1,2565000
+26,2026-09-14,2026-09,Jawa Timur,Retail,PR-03 Jaket Bomber,10,420000,0,4200000
+27,2026-09-15,2026-09,Sumatera,Marketplace,PR-04 Celana Chino,5,310000,0.12,1364000
+28,2026-09-16,2026-09,Jabodetabek,Distributor,PR-05 Sepatu Sneaker,25,750000,0.05,17812000
+29,2026-09-17,2026-09,Jawa Barat,Retail,PR-06 Tas Kanvas,4,235000,0,940000
+30,2026-09-18,2026-09,Jawa Timur,Marketplace,PR-01 Kemeja Formal,13,285000,0,3705000
+31,2026-09-19,2026-09,Sumatera,Distributor,PR-02 Kaos Polos,8,95000,0.075,703000
+32,2026-09-20,2026-09,Jabodetabek,Retail,PR-03 Jaket Bomber,21,420000,0.1,7938000
+33,2026-09-21,2026-09,Jawa Barat,Marketplace,PR-04 Celana Chino,18,310000,0,5580000
+34,2026-09-22,2026-09,Jawa Timur,Distributor,PR-05 Sepatu Sneaker,33,750000,0.12,21780000
+35,2026-09-23,2026-09,Sumatera,Retail,PR-06 Tas Kanvas,20,235000,0,4700000
+36,2026-09-24,2026-09,Jabodetabek,Marketplace,PR-01 Kemeja Formal,27,285000,0.05,7310000
+37,2026-10-01,2026-10,Jawa Barat,Distributor,PR-02 Kaos Polos,39,95000,0.075,3427000
+38,2026-10-02,2026-10,Jawa Timur,Retail,PR-03 Jaket Bomber,8,420000,0.12,2957000
+39,2026-10-03,2026-10,Sumatera,Marketplace,PR-04 Celana Chino,24,310000,0,7440000
+40,2026-10-04,2026-10,Jabodetabek,Distributor,PR-05 Sepatu Sneaker,18,750000,0.12,11880000
+41,2026-10-05,2026-10,Jawa Barat,Retail,PR-06 Tas Kanvas,36,235000,0,8460000
+42,2026-10-06,2026-10,Jawa Timur,Marketplace,PR-01 Kemeja Formal,17,285000,0.12,4264000
+43,2026-10-07,2026-10,Sumatera,Distributor,PR-02 Kaos Polos,25,95000,0.1,2138000
+44,2026-10-08,2026-10,Jabodetabek,Retail,PR-03 Jaket Bomber,39,420000,0,16380000
+45,2026-10-09,2026-10,Jawa Barat,Marketplace,PR-04 Celana Chino,28,310000,0,8680000
+46,2026-10-10,2026-10,Jawa Timur,Distributor,PR-05 Sepatu Sneaker,34,750000,0.15,21675000
+47,2026-10-11,2026-10,Sumatera,Retail,PR-06 Tas Kanvas,28,235000,0.075,6086000
+48,2026-10-12,2026-10,Jabodetabek,Marketplace,PR-01 Kemeja Formal,8,285000,0,2280000
+49,2026-10-13,2026-10,Jawa Barat,Distributor,PR-02 Kaos Polos,31,95000,0.05,2798000
+50,2026-10-14,2026-10,Jawa Timur,Retail,PR-03 Jaket Bomber,20,420000,0,8400000
+51,2026-10-15,2026-10,Sumatera,Marketplace,PR-04 Celana Chino,3,310000,0,930000
+52,2026-10-16,2026-10,Jabodetabek,Distributor,PR-05 Sepatu Sneaker,15,750000,0.05,10688000
+53,2026-10-17,2026-10,Jawa Barat,Retail,PR-06 Tas Kanvas,10,235000,0,2350000
+54,2026-10-18,2026-10,Jawa Timur,Marketplace,PR-01 Kemeja Formal,33,285000,0.1,8464000
+55,2026-10-19,2026-10,Sumatera,Distributor,PR-02 Kaos Polos,21,95000,0.1,1796000
+56,2026-10-20,2026-10,Jabodetabek,Retail,PR-03 Jaket Bomber,31,420000,0.12,11458000
+57,2026-10-21,2026-10,Jawa Barat,Marketplace,PR-04 Celana Chino,27,310000,0.12,7366000
+58,2026-10-22,2026-10,Jawa Timur,Distributor,PR-05 Sepatu Sneaker,38,750000,0.12,25080000
+59,2026-10-23,2026-10,Sumatera,Retail,PR-06 Tas Kanvas,39,235000,0,9165000
+60,2026-10-24,2026-10,Jabodetabek,Marketplace,PR-01 Kemeja Formal,40,285000,0.12,10032000
