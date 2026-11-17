@@ -10,6 +10,7 @@ sehingga terasa kaitannya: angka yang dulu dihitung dengan SUMIFS sekarang diamb
 | `soal.md` | 12 soal + hasil yang diharapkan (kolom & urutan) |
 | `jawaban.sql` | **kamu tulis query di sini**, di bawah tiap penanda `-- === SOAL n ===` |
 | `cek_jawaban.py` | penilai otomatis: memuat CSV ke SQLite, menjalankan querymu, bandingkan dengan kunci |
+| `coba.py` | uji query langsung tanpa mengubah `jawaban.sql`: `python3 coba.py "SELECT * FROM penjualan LIMIT 5"` |
 | `data/*.csv` | 4 tabel: `penjualan` (60 baris), `kampanye_iklan` (30), `lead` (28), `master_sumber` (4) |
 
 ## Cara mengerjakan
