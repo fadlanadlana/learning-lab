@@ -23,6 +23,15 @@ python3 cek_jawaban.py           # jalankan penilai
 Penilai menampilkan **KOSONG**, **BENAR**, atau **SALAH** per soal, lalu skor.
 Database dibangun ulang dari CSV setiap kali dijalankan.
 
+Kalau satu soal tetap SALAH dan kamu tidak tahu sebabnya, periksa detailnya:
+
+```
+python3 cek_jawaban.py --detail 11
+```
+
+Perintah itu menampilkan query kamu apa adanya, hasil yang keluar, kunci beserta hasil kunci, dan
+kesimpulan: isi beda, hanya urutan beda, atau query error.
+
 ## Kriteria lulus
 
 12/12 BENAR. 10-11 benar = lulus bersyarat: perbaiki yang SALAH dulu.

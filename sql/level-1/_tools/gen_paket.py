@@ -87,18 +87,71 @@ def sama(a, b, urut):
         return False, "jumlah kolom beda (%d vs %d)" % (len(a[0]), len(b[0]))
     na = [[norm(x) for x in row] for row in a]
     nb = [[norm(x) for x in row] for row in b]
-    if urut:
-        beda = [i for i in range(len(na)) if na[i] != nb[i]]
-        return (not beda), ("baris ke-%d beda: %s vs %s" % (beda[0] + 1, na[beda[0]], nb[beda[0]])
-                            if beda else "")
-    if sorted(map(str, na)) != sorted(map(str, nb)):
-        hanya_a = [r for r in na if str(r) not in [str(x) for x in nb]][:2]
-        hanya_b = [r for r in nb if str(r) not in [str(x) for x in na]][:2]
-        return False, "isi beda. punyamu %s | kunci %s" % (hanya_a, hanya_b)
-    return True, ""
+    if ursorted(na, nb):
+        if urut:
+            beda = [i for i in range(len(na)) if na[i] != nb[i]]
+            if not beda:
+                return True, ""
+            return False, ("isi sudah benar, hanya URUTAN yang beda — soal ini menguji ORDER BY. "
+                           "baris ke-%d punyamu %s, kunci %s" % (beda[0] + 1, na[beda[0]], nb[beda[0]]))
+        return True, ""
+    hanya_a = [r for r in na if str(r) not in [str(x) for x in nb]][:2]
+    hanya_b = [r for r in nb if str(r) not in [str(x) for x in na]][:2]
+    return False, "isi beda. punyamu %s | kunci %s" % (hanya_a, hanya_b)
+
+
+def ursorted(na, nb):
+    return sorted(map(str, na)) == sorted(map(str, nb))
+
+
+def tabel(rows):
+    if not rows:
+        return "(tidak ada baris)"
+    return "\\n".join("    %r" % (tuple(r),) for r in rows)
+
+
+def detail(no):
+    if no not in KUNCI:
+        print("soal %d tidak ada. pilihan: %s" % (no, ", ".join(map(str, sorted(KUNCI)))))
+        return 2
+    con = bangun_db()
+    jawab = baca_jawaban()
+    q, urut = KUNCI[no]
+    milik = jawab.get(no, "")
+    kunci = con.execute(q).fetchall()
+    print("SOAL %d — urutan diuji: %s\\n" % (no, "YA" if urut else "tidak"))
+    print("-- query kamu --")
+    print(milik if milik else "(kosong: belum ada query di bawah penanda SOAL %d)" % no)
+    hasil = None
+    if milik:
+        try:
+            hasil = con.execute(milik).fetchall()
+        except Exception as e:
+            print("\\n-- hasil kamu --")
+            print("ERROR saat dijalankan: %s" % e)
+        else:
+            print("\\n-- hasil kamu (%d baris) --" % len(hasil))
+            print(tabel(hasil))
+    print("\\n-- kunci (%d baris) --" % len(kunci))
+    print(q)
+    print(tabel(kunci))
+    if hasil is None:
+        print("\\nKESIMPULAN: querymu belum bisa dijalankan. Kalau kamu menyalin dari cek_jawaban.py,")
+        print("jangan salin tanda kutip ganda dan indentasi Python-nya — ambil isi SQL-nya saja.")
+    else:
+        ok, pesan = sama(hasil, kunci, urut)
+        print("\\nKESIMPULAN: %s" % ("BENAR" if ok else pesan))
+    con.close()
+    return 0
 
 
 def main():
+    arg = sys.argv[1:]
+    if arg and arg[0] in ("-d", "--detail"):
+        if len(arg) > 1 and arg[1].isdigit():
+            return detail(int(arg[1]))
+        print("pakai: python3 cek_jawaban.py --detail NOMOR")
+        return 2
     con = bangun_db()
     jawab = baca_jawaban()
     benar = 0
@@ -168,6 +221,15 @@ python3 cek_jawaban.py           # jalankan penilai
 
 Penilai menampilkan **KOSONG**, **BENAR**, atau **SALAH** per soal, lalu skor.
 Database dibangun ulang dari CSV setiap kali dijalankan.
+
+Kalau satu soal tetap SALAH dan kamu tidak tahu sebabnya, periksa detailnya:
+
+```
+python3 cek_jawaban.py --detail 11
+```
+
+Perintah itu menampilkan query kamu apa adanya, hasil yang keluar, kunci beserta hasil kunci, dan
+kesimpulan: isi beda, hanya urutan beda, atau query error.
 
 ## Kriteria lulus
 

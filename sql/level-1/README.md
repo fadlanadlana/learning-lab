@@ -25,6 +25,15 @@ Penilai menampilkan status **KOSONG** (belum diisi), **BENAR**, atau **SALAH** p
 Semua soal dijalankan di database SQLite sementara yang dibangun ulang dari CSV setiap kali dijalankan,
 jadi kamu boleh mengubah data, tapi angka kunci ikut berubah.
 
+Kalau satu soal tetap SALAH dan kamu tidak tahu sebabnya, periksa detailnya:
+
+```
+python3 cek_jawaban.py --detail 11
+```
+
+Perintah itu menampilkan query kamu apa adanya, hasil yang keluar, kunci beserta hasil kunci, dan
+kesimpulan: isi beda, hanya urutan beda, atau query error.
+
 Urutan pengerjaan yang disarankan: soal 1-6 (SELECT, WHERE, agregasi), 7-9 (GROUP BY, HAVING),
 10 (JOIN), 11-12 (CASE dan subquery/menyaring hasil agregat).
 
