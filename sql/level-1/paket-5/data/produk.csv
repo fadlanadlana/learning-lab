@@ -1,0 +1,13 @@
+sku,nama_produk,kategori,stok_akhir,harga_modal
+SKU-01,Kaos Polos Hitam,Atasan,120,55000
+SKU-02,Kemeja Flanel,Atasan,8,145000
+SKU-03,Chino Panjang,Bawahan,0,165000
+SKU-04,Celana Jogger,Bawahan,35,120000
+SKU-05,Sepatu Sneaker,Sepatu,4,320000
+SKU-06,Sepatu Formal,Sepatu,22,410000
+SKU-07,Topi Baseball,Aksesoris,90,45000
+SKU-08,Tas Kanvas,Aksesoris,0,135000
+SKU-09,Jaket Bomber,Atasan,15,280000
+SKU-10,Sabuk Kulit,Aksesoris,60,85000
+SKU-11,Sandal Kulit,Sepatu,12,210000
+SKU-12,Rompi Denim,Atasan,6,190000

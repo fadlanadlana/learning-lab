@@ -43,4 +43,22 @@ tempat lain, deklarasikan tipenya juga.
 - **Urutan baris** hanya diuji pada soal yang memang meminta `ORDER BY` (ditandai di `soal.md`).
 - Angka desimal dibandingkan dengan toleransi 4 desimal.
 
+## Paket latihan tambahan (data sendiri, tema marketing & sales)
+
+Folder di bawah ini **mandiri**: dataset berbeda, 12 soal, penilai sendiri. Tingkat kesulitannya sama
+dengan level-1 di atas, jadi bisa dikerjakan kapan saja tanpa mengubah `soal.md` di folder ini.
+
+| Paket | Tema | Tabel |
+|---|---|---|
+| `paket-2/` | Funnel website per kanal | `trafik` (24), `kanal_master` (6) |
+| `paket-3/` | Repeat order pelanggan | `pesanan` (24), `pelanggan` (10), `ongkir` (5) |
+| `paket-4/` | Biaya iklan & CPL per platform | `iklan_harian` (24), `platform_master` (4) |
+| `paket-5/` | Penjualan produk & status stok | `penjualan_produk` (24), `produk` (12) |
+
+Cara pakai sama: masuk ke foldernya, lalu `unset LD_LIBRARY_PATH; python3 cek_jawaban.py`.
+
+Berkas paket dihasilkan oleh `_tools/gen_paket.py`. Kalau kamu mengubah CSV atau soal langsung,
+jangan jalankan generator lagi dari situ — jalankan setelah mengubah definisi di generator, karena
+generator menimpa `soal.md`, `jawaban.sql`, `cek_jawaban.py`, dan README tiap paket.
+
 Setelah lulus, lanjut ke `sql/level-2` (JOIN bertingkat, subquery, CTE, window function).
