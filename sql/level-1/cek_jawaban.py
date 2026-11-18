@@ -17,6 +17,28 @@ JAWABAN = os.path.join(BASE, "jawaban.sql")
 TABEL = ["penjualan", "kampanye_iklan", "lead", "master_sumber"]
 MARKER = re.compile(r"^--\s*=+\s*SOAL\s+(\d+)\s*=+\s*$", re.M)
 
+# Tipe kolom wajib dideklarasikan. Tanpa ini SQLite memberi TEXT affinity ke semua kolom,
+# sehingga ORDER BY angka mengurutkan secara abjad dan perbandingan seperti diskon >= 0.1
+# membandingkan teks ('0' < '0.1' secara string, bukan angka).
+SKEMA = {
+    "penjualan": {
+        "id": "INTEGER", "tanggal": "TEXT", "bulan": "TEXT", "region": "TEXT", "kanal": "TEXT",
+        "produk": "TEXT", "qty": "INTEGER", "harga": "INTEGER", "diskon": "REAL", "revenue": "INTEGER",
+    },
+    "kampanye_iklan": {
+        "tanggal": "TEXT", "id_kampanye": "TEXT", "nama_kampanye": "TEXT", "kanal": "TEXT",
+        "impresi": "INTEGER", "klik": "INTEGER", "biaya": "INTEGER", "konversi": "INTEGER",
+        "revenue": "INTEGER",
+    },
+    "lead": {
+        "tanggal_masuk": "TEXT", "id_lead": "TEXT", "nama": "TEXT", "kode_sumber": "TEXT",
+        "kota": "TEXT", "status": "TEXT", "nilai": "INTEGER",
+    },
+    "master_sumber": {
+        "kode_sumber": "TEXT", "nama_sumber": "TEXT", "biaya_per_lead": "INTEGER",
+    },
+}
+
 # ---------------------------------------------------------------- kunci jawaban (jangan diubah)
 KUNCI = {
     1: ("SELECT SUM(revenue) FROM penjualan;", False),
@@ -33,11 +55,18 @@ KUNCI = {
     10: ("SELECT m.nama_sumber, COUNT(*) AS jumlah_won FROM lead l "
          "JOIN master_sumber m ON m.kode_sumber = l.kode_sumber WHERE l.status = 'Won' "
          "GROUP BY m.nama_sumber ORDER BY jumlah_won DESC;", True),
-    11: ("SELECT id_lead, nama, nilai, CASE WHEN nilai >= 50000000 THEN 'BESAR' "
-         "WHEN nilai >= 10000000 THEN 'MENENGAH' ELSE 'KECIL' END AS kategori FROM lead "
-         "ORDER BY nilai DESC LIMIT 5;", True),
+    11: ("SELECT CASE WHEN nilai >= 50000000 THEN 'BESAR' WHEN nilai >= 10000000 THEN 'MENENGAH' "
+         "ELSE 'KECIL' END AS kategori, COUNT(*) AS jumlah, SUM(nilai) AS total_nilai FROM lead "
+         "GROUP BY kategori ORDER BY kategori;", True),
     12: ("SELECT kanal, ROUND(1.0*SUM(revenue)/SUM(biaya), 2) AS roas FROM kampanye_iklan "
          "GROUP BY kanal ORDER BY roas DESC LIMIT 1;", False),
+    13: ("SELECT MIN(nilai) AS nilai_min, MAX(nilai) AS nilai_max FROM lead "
+         "WHERE status = 'Won' AND kota IN ('Bandung', 'Medan');", False),
+    14: ("SELECT COUNT(*) FROM lead WHERE nama LIKE '%Nugroho%';", False),
+    15: ("SELECT m.nama_sumber FROM master_sumber m LEFT JOIN lead l ON l.kode_sumber = m.kode_sumber "
+         "WHERE l.id_lead IS NULL;", False),
+    16: ("SELECT status, ROUND(AVG(nilai), 0) AS rata_nilai FROM lead GROUP BY status "
+         "ORDER BY rata_nilai DESC, status ASC;", True),
 }
 
 
@@ -46,8 +75,9 @@ def bangun_db():
     for t in TABEL:
         with open(os.path.join(DATA, t + ".csv"), encoding="utf-8") as f:
             rows = list(csv.reader(f))
-        header, isi = rows[0], rows[1:]
-        kolom = ", ".join('"%s"' % c for c in header)
+        header, isi = rows[0], [r for r in rows[1:] if r and any(x.strip() for x in r)]
+        tipe = SKEMA[t]
+        kolom = ", ".join('"%s" %s' % (c, tipe[c]) for c in header)
         con.execute("CREATE TABLE %s (%s)" % (t, kolom))
         con.executemany("INSERT INTO %s VALUES (%s)" % (t, ",".join("?" * len(header))), isi)
     con.commit()

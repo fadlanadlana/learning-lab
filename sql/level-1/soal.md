@@ -10,10 +10,11 @@ Tabel yang tersedia (nama tabel = nama file CSV, tanpa ekstensi):
 | `master_sumber` | kode_sumber, nama_sumber, biaya_per_lead |
 
 Catatan: `diskon` disimpan sebagai pecahan (0.1 = 10%). `bulan` berformat `2026-08`. Kolom `nama`
-di tabel `lead` sengaja masih kotor (spasi ganda, huruf besar semua).
+di tabel `lead` sengaja masih kotor (spasi ganda, huruf besar semua). Tabel `master_sumber` punya
+satu sumber (`SRC-S`) yang belum pernah menghasilkan lead — itu bukan data rusak, memang begitu adanya.
 
 Kerjakan di `jawaban.sql` di bawah tiap penanda soal. Semua soal level 1 cukup dengan SELECT/WHERE/
-GROUP BY/JOIN — tidak perlu subquery, kecuali soal 12.
+GROUP BY/JOIN — tidak perlu subquery, kecuali soal 12. Total 16 soal.
 
 ---
 
@@ -59,10 +60,37 @@ Jumlah lead berstatus `Won` per nama sumber (ambil `nama_sumber` dari `master_su
 Hasil: kolom `nama_sumber`, `jumlah_won`. Urutan diuji (jumlah_won menurun).
 
 ### SOAL 11
-5 lead dengan nilai terbesar, lengkap dengan kategori nilai:
+Jumlah lead dan total nilai per kategori nilai:
 `BESAR` bila nilai >= 50.000.000, `MENENGAH` bila >= 10.000.000, sisanya `KECIL`.
-Hasil: kolom `id_lead`, `nama`, `nilai`, `kategori`. Urutan diuji (nilai menurun).
+Hasil: kolom `kategori`, `jumlah`, `total_nilai`. Urutan diuji (kategori A-Z).
 
 ### SOAL 12
 Kanal iklan dengan ROAS tertinggi (revenue / biaya) dari tabel `kampanye_iklan`.
 Hasil: kolom `kanal`, `roas` — 1 baris saja.
+
+---
+
+## Tambahan (soal 13-16)
+
+Empat soal ini menutup celah yang belum disentuh soal 1-12: `IN`, `MIN`/`MAX` dalam satu baris,
+`LIKE` pada data kotor, `LEFT JOIN` untuk mencari yang **tidak** ada, dan `GROUP BY` pada kolom teks.
+
+### SOAL 13
+Nilai lead terkecil dan terbesar untuk lead **berstatus `Won`** yang kotanya `Bandung` atau `Medan`.
+Saring kotanya pakai `IN`, bukan dua `OR`.
+Hasil: kolom `nilai_min`, `nilai_max` — 1 baris.
+
+### SOAL 14
+Jumlah lead yang namanya mengandung `Nugroho`, walaupun kolom `nama` masih berisi spasi berlebih
+dan huruf besar-kecil campur.
+Hasil: 1 kolom, 1 baris.
+
+### SOAL 15
+Nama sumber lead yang sampai sekarang **belum punya satu lead pun** di tabel `lead`.
+Butuh `LEFT JOIN` + menyaring baris yang tidak punya pasangan.
+Hasil: 1 kolom berisi `nama_sumber` — 1 baris.
+
+### SOAL 16
+Rata-rata `nilai` lead per `status`, dibulatkan 0 desimal, urut dari rata-rata terbesar.
+Kalau ada rata-rata yang sama, urutkan `status` menaik (A-Z) — dua baris di data ini rata-ratanya 0.
+Hasil: kolom `status`, `rata_nilai`. Urutan diuji.

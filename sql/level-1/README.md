@@ -7,11 +7,11 @@ sehingga terasa kaitannya: angka yang dulu dihitung dengan SUMIFS sekarang diamb
 
 | File | Fungsi |
 |---|---|
-| `soal.md` | 12 soal + hasil yang diharapkan (kolom & urutan) |
+| `soal.md` | 16 soal + hasil yang diharapkan (kolom & urutan) |
 | `jawaban.sql` | **kamu tulis query di sini**, di bawah tiap penanda `-- === SOAL n ===` |
 | `cek_jawaban.py` | penilai otomatis: memuat CSV ke SQLite, menjalankan querymu, bandingkan dengan kunci |
 | `coba.py` | uji query langsung tanpa mengubah `jawaban.sql`: `python3 coba.py "SELECT * FROM penjualan LIMIT 5"` |
-| `data/*.csv` | 4 tabel: `penjualan` (60 baris), `kampanye_iklan` (30), `lead` (28), `master_sumber` (4) |
+| `data/*.csv` | 4 tabel: `penjualan` (60 baris), `kampanye_iklan` (30), `lead` (28), `master_sumber` (5) |
 
 ## Cara mengerjakan
 
@@ -26,11 +26,17 @@ Semua soal dijalankan di database SQLite sementara yang dibangun ulang dari CSV 
 jadi kamu boleh mengubah data, tapi angka kunci ikut berubah.
 
 Urutan pengerjaan yang disarankan: soal 1-6 (SELECT, WHERE, agregasi), 7-9 (GROUP BY, HAVING),
-10 (JOIN), 11-12 (CASE dan subquery/menyaring hasil agregat).
+10 (JOIN), 11-12 (CASE dan subquery/menyaring hasil agregat), 13-16 (IN, MIN/MAX, LIKE, LEFT JOIN
+untuk mencari yang tidak ada, GROUP BY pada kolom teks).
+
+Catatan teknis: CSV dimuat dengan tipe kolom eksplisit (`INTEGER`/`REAL`/`TEXT`, lihat `SKEMA` di
+`cek_jawaban.py`). Kalau kolom angka dimuat tanpa tipe, SQLite memberi TEXT affinity dan
+`ORDER BY revenue DESC` akan mengurutkan secara abjad — jadi kalau kamu memuat CSV ini sendiri di
+tempat lain, deklarasikan tipenya juga.
 
 ## Kriteria lulus
 
-12/12 BENAR. 10-11 benar = lulus bersyarat: perbaiki yang SALAH dulu.
+16/16 BENAR. 14-15 benar = lulus bersyarat: perbaiki yang SALAH dulu.
 
 ## Yang dinilai
 

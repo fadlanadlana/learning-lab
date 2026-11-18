@@ -17,14 +17,20 @@ BASE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(BASE, "data")
 TABEL = ["penjualan", "kampanye_iklan", "lead", "master_sumber"]
 
+# Tipe kolom diambil dari cek_jawaban.py supaya coba.py dan penilai memakai skema yang sama.
+# Tanpa tipe, SQLite memberi TEXT affinity dan angka terurut seperti teks.
+sys.path.insert(0, BASE)
+from cek_jawaban import SKEMA  # noqa: E402
+
 
 def bangun():
     con = sqlite3.connect(":memory:")
     for t in TABEL:
         with open(os.path.join(DATA, t + ".csv"), encoding="utf-8") as f:
             rows = list(csv.reader(f))
-        header, isi = rows[0], rows[1:]
-        con.execute("CREATE TABLE %s (%s)" % (t, ", ".join('"%s"' % c for c in header)))
+        header, isi = rows[0], [r for r in rows[1:] if r and any(x.strip() for x in r)]
+        kolom = ", ".join('"%s" %s' % (c, SKEMA[t][c]) for c in header)
+        con.execute("CREATE TABLE %s (%s)" % (t, kolom))
         con.executemany("INSERT INTO %s VALUES (%s)" % (t, ",".join("?" * len(header))), isi)
     con.commit()
     return con
