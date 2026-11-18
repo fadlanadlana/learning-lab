@@ -59,10 +59,14 @@ Jumlah lead berstatus `Won` per nama sumber (ambil `nama_sumber` dari `master_su
 Hasil: kolom `nama_sumber`, `jumlah_won`. Urutan diuji (jumlah_won menurun).
 
 ### SOAL 11
-Jumlah lead dan total nilai per kategori nilai:
+5 lead dengan nilai terbesar, lengkap dengan kategori nilai:
 `BESAR` bila nilai >= 50.000.000, `MENENGAH` bila >= 10.000.000, sisanya `KECIL`.
-Hasil: kolom `kategori`, `jumlah`, `total_nilai`. Urutan diuji (kategori A-Z).
+Hasil: kolom `id_lead`, `nama`, `nilai`, `kategori`. Urutan diuji (nilai menurun).
 
 ### SOAL 12
 Kanal iklan dengan ROAS tertinggi (revenue / biaya) dari tabel `kampanye_iklan`.
 Hasil: kolom `kanal`, `roas` — 1 baris saja.
+
+---
+
+Revisi terakhir: 2026-11-19 — soal 11 dikembalikan ke versi awal (5 lead terbesar + kategori).

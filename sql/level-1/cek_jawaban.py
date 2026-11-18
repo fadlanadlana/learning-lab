@@ -55,9 +55,9 @@ KUNCI = {
     10: ("SELECT m.nama_sumber, COUNT(*) AS jumlah_won FROM lead l "
          "JOIN master_sumber m ON m.kode_sumber = l.kode_sumber WHERE l.status = 'Won' "
          "GROUP BY m.nama_sumber ORDER BY jumlah_won DESC;", True),
-    11: ("SELECT CASE WHEN nilai >= 50000000 THEN 'BESAR' WHEN nilai >= 10000000 THEN 'MENENGAH' "
-         "ELSE 'KECIL' END AS kategori, COUNT(*) AS jumlah, SUM(nilai) AS total_nilai FROM lead "
-         "GROUP BY kategori ORDER BY kategori;", True),
+    11: ("SELECT id_lead, nama, nilai, CASE WHEN nilai >= 50000000 THEN 'BESAR' "
+         "WHEN nilai >= 10000000 THEN 'MENENGAH' ELSE 'KECIL' END AS kategori FROM lead "
+         "ORDER BY nilai DESC LIMIT 5;", True),
     12: ("SELECT kanal, ROUND(1.0*SUM(revenue)/SUM(biaya), 2) AS roas FROM kampanye_iklan "
          "GROUP BY kanal ORDER BY roas DESC LIMIT 1;", False),
 }
