@@ -9,7 +9,7 @@
 
 -- === SOAL 1 ===
 SELECT SUM(revenue) AS total_revenue_pen
-FROM penjualan; 
+FROM penjualan;
 
 -- === SOAL 2 ===
 SELECT
