@@ -60,13 +60,6 @@ KUNCI = {
          "GROUP BY kategori ORDER BY kategori;", True),
     12: ("SELECT kanal, ROUND(1.0*SUM(revenue)/SUM(biaya), 2) AS roas FROM kampanye_iklan "
          "GROUP BY kanal ORDER BY roas DESC LIMIT 1;", False),
-    13: ("SELECT MIN(nilai) AS nilai_min, MAX(nilai) AS nilai_max FROM lead "
-         "WHERE status = 'Won' AND kota IN ('Bandung', 'Medan');", False),
-    14: ("SELECT COUNT(*) FROM lead WHERE nama LIKE '%Nugroho%';", False),
-    15: ("SELECT m.nama_sumber FROM master_sumber m LEFT JOIN lead l ON l.kode_sumber = m.kode_sumber "
-         "WHERE l.id_lead IS NULL;", False),
-    16: ("SELECT status, ROUND(AVG(nilai), 0) AS rata_nilai FROM lead GROUP BY status "
-         "ORDER BY rata_nilai DESC, status ASC;", True),
 }
 
 
