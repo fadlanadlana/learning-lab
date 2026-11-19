@@ -142,7 +142,9 @@ def detail(no):
     print("\n-- kunci (%d baris) --" % len(kunci))
     print(q)
     print(tabel(kunci))
-    if hasil is None:
+    if not milik:
+        print("\nKESIMPULAN: soal %d belum diisi — belum ada query di bawah penandanya." % no)
+    elif hasil is None:
         print("\nKESIMPULAN: querymu belum bisa dijalankan. Kalau kamu menyalin dari cek_jawaban.py,")
         print("jangan salin tanda kutip ganda dan indentasi Python-nya — ambil isi SQL-nya saja.")
     else:
