@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Penilai otomatis Penjualan produk dan status stok.
+"""Penilai otomatis jalur SQL level 1.
 
-Cara pakai:  python3 cek_jawaban.py            (dari folder paket-5)
-Semua CSV di data/ dimuat ke database SQLite sementara, query di jawaban.sql dijalankan,
-lalu hasilnya dibandingkan dengan kunci. Tidak butuh library tambahan (stdlib saja).
+Cara pakai:  python3 pendukung/cek_jawaban.py  (dari folder sql/level-1)
+Semua CSV di pendukung/data/ dimuat ke database SQLite sementara, query di
+latihan/jawaban.sql dijalankan, lalu hasilnya dibandingkan dengan kunci.
+Tidak butuh library tambahan (stdlib saja).
 """
 import csv
 import os
@@ -11,33 +12,56 @@ import re
 import sqlite3
 import sys
 
-BASE = os.path.dirname(os.path.abspath(__file__))
-DATA = os.path.join(BASE, "data")
-JAWABAN = os.path.join(BASE, "jawaban.sql")
-TABEL = ["penjualan_produk", "produk"]
+HERE = os.path.dirname(os.path.abspath(__file__))        # .../pendukung
+ROOT = os.path.dirname(HERE)                             # folder latihan ini (level-1 / paket-N)
+DATA = os.path.join(HERE, "data")
+JAWABAN = os.path.join(ROOT, "latihan", "jawaban.sql")
+TABEL = ["penjualan", "kampanye_iklan", "lead", "master_sumber"]
 MARKER = re.compile(r"^--\s*=+\s*SOAL\s+(\d+)\s*=+\s*$", re.M)
 
 # Tipe kolom wajib dideklarasikan. Tanpa ini SQLite memberi TEXT affinity ke semua kolom,
-# sehingga ORDER BY angka mengurutkan secara abjad dan perbandingan angka jadi perbandingan teks.
+# sehingga ORDER BY angka mengurutkan secara abjad dan perbandingan seperti diskon >= 0.1
+# membandingkan teks ('0' < '0.1' secara string, bukan angka).
 SKEMA = {
-    "penjualan_produk": {"tanggal": "TEXT", "bulan": "TEXT", "sku": "TEXT", "qty": "INTEGER", "harga": "INTEGER", "revenue": "INTEGER"},
-    "produk": {"sku": "TEXT", "nama_produk": "TEXT", "kategori": "TEXT", "stok_akhir": "INTEGER", "harga_modal": "INTEGER"},
+    "penjualan": {
+        "id": "INTEGER", "tanggal": "TEXT", "bulan": "TEXT", "region": "TEXT", "kanal": "TEXT",
+        "produk": "TEXT", "qty": "INTEGER", "harga": "INTEGER", "diskon": "REAL", "revenue": "INTEGER",
+    },
+    "kampanye_iklan": {
+        "tanggal": "TEXT", "id_kampanye": "TEXT", "nama_kampanye": "TEXT", "kanal": "TEXT",
+        "impresi": "INTEGER", "klik": "INTEGER", "biaya": "INTEGER", "konversi": "INTEGER",
+        "revenue": "INTEGER",
+    },
+    "lead": {
+        "tanggal_masuk": "TEXT", "id_lead": "TEXT", "nama": "TEXT", "kode_sumber": "TEXT",
+        "kota": "TEXT", "status": "TEXT", "nilai": "INTEGER",
+    },
+    "master_sumber": {
+        "kode_sumber": "TEXT", "nama_sumber": "TEXT", "biaya_per_lead": "INTEGER",
+    },
 }
 
 # ---------------------------------------------------------------- kunci jawaban (jangan diubah)
 KUNCI = {
-    1: ('SELECT SUM(qty) FROM penjualan_produk;', False),
-    2: ('SELECT p.kategori, SUM(s.qty) AS total_qty FROM penjualan_produk s JOIN produk p ON p.sku = s.sku GROUP BY p.kategori ORDER BY total_qty DESC;', True),
-    3: ('SELECT tanggal, sku, revenue FROM penjualan_produk ORDER BY revenue DESC LIMIT 5;', True),
-    4: ('SELECT COUNT(*) FROM penjualan_produk WHERE qty >= 20;', False),
-    5: ("SELECT ROUND(AVG(s.harga), 0) FROM penjualan_produk s JOIN produk p ON p.sku = s.sku WHERE p.kategori = 'Sepatu';", False),
-    6: ('SELECT bulan, SUM(revenue) AS total_revenue FROM penjualan_produk GROUP BY bulan ORDER BY bulan ASC;', True),
-    7: ('SELECT p.kategori FROM penjualan_produk s JOIN produk p ON p.sku = s.sku GROUP BY p.kategori HAVING SUM(s.qty) > 80 ORDER BY p.kategori;', True),
-    8: ('SELECT COUNT(DISTINCT sku) FROM penjualan_produk;', False),
-    9: ('SELECT p.nama_produk, SUM(s.qty) AS total_qty FROM penjualan_produk s JOIN produk p ON p.sku = s.sku GROUP BY p.nama_produk ORDER BY total_qty DESC;', True),
-    10: ("SELECT SUM(s.revenue) FROM penjualan_produk s JOIN produk p ON p.sku = s.sku WHERE p.kategori = 'Aksesoris';", False),
-    11: ("SELECT CASE WHEN stok_akhir = 0 THEN 'HABIS' WHEN stok_akhir < 10 THEN 'TIPIS' ELSE 'AMAN' END AS label_stok, COUNT(*) AS jumlah_sku FROM produk GROUP BY label_stok ORDER BY label_stok;", True),
-    12: ('SELECT p.sku FROM produk p LEFT JOIN penjualan_produk s ON s.sku = p.sku WHERE s.sku IS NULL ORDER BY p.sku;', True),
+    1: ("SELECT SUM(revenue) FROM penjualan;", False),
+    2: ("SELECT region, SUM(qty) AS total_qty FROM penjualan GROUP BY region ORDER BY total_qty DESC;", True),
+    3: ("SELECT id, produk, revenue FROM penjualan ORDER BY revenue DESC LIMIT 5;", True),
+    4: ("SELECT COUNT(*) FROM penjualan WHERE diskon >= 0.1;", False),
+    5: ("SELECT ROUND(AVG(diskon), 4) FROM penjualan WHERE kanal = 'Marketplace';", False),
+    6: ("SELECT bulan, SUM(revenue) AS total_revenue FROM penjualan GROUP BY bulan ORDER BY bulan ASC;", True),
+    7: ("SELECT region FROM penjualan GROUP BY region HAVING AVG(revenue) > 5000000 ORDER BY region;", True),
+    8: ("SELECT COUNT(DISTINCT produk) FROM penjualan;", False),
+    9: ("SELECT kanal, SUM(biaya) AS total_biaya, SUM(revenue) AS total_revenue, "
+        "ROUND(1.0*SUM(revenue)/SUM(biaya), 2) AS roas FROM kampanye_iklan GROUP BY kanal "
+        "ORDER BY roas DESC;", True),
+    10: ("SELECT m.nama_sumber, COUNT(*) AS jumlah_won FROM lead l "
+         "JOIN master_sumber m ON m.kode_sumber = l.kode_sumber WHERE l.status = 'Won' "
+         "GROUP BY m.nama_sumber ORDER BY jumlah_won DESC;", True),
+    11: ("SELECT CASE WHEN nilai >= 50000000 THEN 'BESAR' WHEN nilai >= 10000000 THEN 'MENENGAH' "
+         "ELSE 'KECIL' END AS kategori, COUNT(*) AS jumlah, SUM(nilai) AS total_nilai FROM lead "
+         "GROUP BY kategori ORDER BY kategori;", True),
+    12: ("SELECT kanal, ROUND(1.0*SUM(revenue)/SUM(biaya), 2) AS roas FROM kampanye_iklan "
+         "GROUP BY kanal ORDER BY roas DESC LIMIT 1;", False),
 }
 
 
@@ -161,7 +185,7 @@ def main():
     jawab = baca_jawaban()
     benar = 0
     total = len(KUNCI)
-    print("Penilai jawaban Penjualan produk dan status stok — %d soal\n" % total)
+    print("Penilai jawaban SQL level 1 — %d soal\n" % total)
     for no in sorted(KUNCI):
         q, urut = KUNCI[no]
         milik = jawab.get(no, "")
@@ -182,7 +206,7 @@ def main():
             print("%2d. SALAH    %s" % (no, pesan))
     print("\nSKOR: %d / %d benar" % (benar, total))
     if benar == total:
-        print("STATUS: LULUS SEMPURNA")
+        print("STATUS: LULUS SEMPURNA - lanjut ke sql/level-2")
     elif benar >= total - 2:
         print("STATUS: LULUS BERSYARAT - perbaiki yang SALAH")
     else:

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Penilai otomatis Repeat order pelanggan.
+"""Penilai otomatis Biaya iklan dan CPL per platform.
 
-Cara pakai:  python3 cek_jawaban.py            (dari folder paket-3)
-Semua CSV di data/ dimuat ke database SQLite sementara, query di jawaban.sql dijalankan,
-lalu hasilnya dibandingkan dengan kunci. Tidak butuh library tambahan (stdlib saja).
+Cara pakai:  python3 pendukung/cek_jawaban.py  (dari folder paket-4)
+Semua CSV di pendukung/data/ dimuat ke database SQLite sementara, query di latihan/jawaban.sql
+dijalankan, lalu hasilnya dibandingkan dengan kunci. Tidak butuh library tambahan (stdlib saja).
 """
 import csv
 import os
@@ -11,34 +11,34 @@ import re
 import sqlite3
 import sys
 
-BASE = os.path.dirname(os.path.abspath(__file__))
-DATA = os.path.join(BASE, "data")
-JAWABAN = os.path.join(BASE, "jawaban.sql")
-TABEL = ["pesanan", "pelanggan", "ongkir"]
+HERE = os.path.dirname(os.path.abspath(__file__))        # .../pendukung
+ROOT = os.path.dirname(HERE)                             # folder paket (paket-N)
+DATA = os.path.join(HERE, "data")
+JAWABAN = os.path.join(ROOT, "latihan", "jawaban.sql")
+TABEL = ["iklan_harian", "platform_master"]
 MARKER = re.compile(r"^--\s*=+\s*SOAL\s+(\d+)\s*=+\s*$", re.M)
 
 # Tipe kolom wajib dideklarasikan. Tanpa ini SQLite memberi TEXT affinity ke semua kolom,
 # sehingga ORDER BY angka mengurutkan secara abjad dan perbandingan angka jadi perbandingan teks.
 SKEMA = {
-    "pesanan": {"id_pesanan": "TEXT", "tanggal": "TEXT", "bulan": "TEXT", "id_pelanggan": "TEXT", "kota": "TEXT", "kanal": "TEXT", "qty": "INTEGER", "nilai": "INTEGER"},
-    "pelanggan": {"id_pelanggan": "TEXT", "nama": "TEXT", "segmen": "TEXT", "kota_domisili": "TEXT"},
-    "ongkir": {"kota": "TEXT", "tarif_per_kg": "INTEGER"},
+    "iklan_harian": {"tanggal": "TEXT", "bulan": "TEXT", "platform": "TEXT", "id_iklan": "TEXT", "kreatif": "TEXT", "impresi": "INTEGER", "klik": "INTEGER", "biaya": "INTEGER", "lead": "INTEGER"},
+    "platform_master": {"platform": "TEXT", "jenis": "TEXT", "cpl_target": "INTEGER"},
 }
 
 # ---------------------------------------------------------------- kunci jawaban (jangan diubah)
 KUNCI = {
-    1: ('SELECT SUM(nilai) FROM pesanan;', False),
-    2: ('SELECT id_pelanggan, COUNT(*) AS jumlah_pesanan FROM pesanan GROUP BY id_pelanggan ORDER BY jumlah_pesanan DESC, id_pelanggan ASC;', True),
-    3: ('SELECT p.nama, SUM(o.nilai) AS total_nilai FROM pesanan o JOIN pelanggan p ON p.id_pelanggan = o.id_pelanggan GROUP BY p.nama ORDER BY total_nilai DESC LIMIT 3;', True),
-    4: ('SELECT COUNT(*) FROM pesanan WHERE nilai >= 1000000;', False),
-    5: ("SELECT ROUND(AVG(qty), 2) FROM pesanan WHERE kanal = 'WhatsApp';", False),
-    6: ('SELECT bulan, SUM(nilai) AS total_nilai FROM pesanan GROUP BY bulan ORDER BY bulan ASC;', True),
-    7: ('SELECT kota FROM pesanan GROUP BY kota HAVING AVG(nilai) > 900000 ORDER BY kota;', True),
-    8: ('SELECT COUNT(DISTINCT kota) FROM pesanan;', False),
-    9: ('SELECT p.segmen, COUNT(*) AS jumlah_pesanan, SUM(o.nilai) AS total_nilai FROM pesanan o JOIN pelanggan p ON p.id_pelanggan = o.id_pelanggan GROUP BY p.segmen ORDER BY total_nilai DESC;', True),
-    10: ("SELECT SUM(nilai) FROM pesanan WHERE kanal IN ('Marketplace', 'Website');", False),
-    11: ("SELECT COUNT(*) FROM pesanan o JOIN pelanggan p ON p.id_pelanggan = o.id_pelanggan WHERE p.nama LIKE '%Putri%';", False),
-    12: ('SELECT g.kota FROM ongkir g LEFT JOIN pesanan o ON o.kota = g.kota WHERE o.kota IS NULL;', False),
+    1: ('SELECT SUM(biaya) FROM iklan_harian;', False),
+    2: ('SELECT platform, SUM(impresi) AS total_impresi FROM iklan_harian GROUP BY platform ORDER BY total_impresi DESC;', True),
+    3: ('SELECT tanggal, kreatif, klik FROM iklan_harian ORDER BY klik DESC LIMIT 5;', True),
+    4: ('SELECT COUNT(*) FROM iklan_harian WHERE lead < 20;', False),
+    5: ("SELECT ROUND(1.0*SUM(klik)/SUM(impresi), 4) FROM iklan_harian WHERE platform = 'TikTok';", False),
+    6: ('SELECT bulan, SUM(biaya) AS total_biaya FROM iklan_harian GROUP BY bulan ORDER BY bulan ASC;', True),
+    7: ('SELECT kreatif, SUM(lead) AS total_lead FROM iklan_harian GROUP BY kreatif HAVING SUM(lead) >= 100 ORDER BY total_lead DESC;', True),
+    8: ('SELECT COUNT(DISTINCT kreatif) FROM iklan_harian;', False),
+    9: ('SELECT platform, SUM(biaya) AS total_biaya, SUM(lead) AS total_lead, ROUND(1.0*SUM(biaya)/SUM(lead), 0) AS cpl FROM iklan_harian GROUP BY platform ORDER BY cpl ASC;', True),
+    10: ("SELECT SUM(i.lead) FROM iklan_harian i JOIN platform_master m ON m.platform = i.platform WHERE m.jenis = 'Search';", False),
+    11: ("SELECT platform, CASE WHEN ROUND(1.0*SUM(biaya)/SUM(lead), 0) <= 45000 THEN 'EFISIEN' WHEN ROUND(1.0*SUM(biaya)/SUM(lead), 0) <= 55000 THEN 'SEDANG' ELSE 'MAHAL' END AS label_cpl FROM iklan_harian GROUP BY platform ORDER BY label_cpl, platform;", True),
+    12: ('SELECT m.platform FROM platform_master m LEFT JOIN iklan_harian i ON i.platform = m.platform WHERE i.platform IS NULL;', False),
 }
 
 
@@ -162,7 +162,7 @@ def main():
     jawab = baca_jawaban()
     benar = 0
     total = len(KUNCI)
-    print("Penilai jawaban Repeat order pelanggan — %d soal\n" % total)
+    print("Penilai jawaban Biaya iklan dan CPL per platform — %d soal\n" % total)
     for no in sorted(KUNCI):
         q, urut = KUNCI[no]
         milik = jawab.get(no, "")

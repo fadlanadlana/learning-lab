@@ -2,10 +2,10 @@
 """Coba query SQL langsung tanpa mengubah jawaban.sql.
 
 Pakai (dari folder sql/level-1):
-    python3 coba.py "SELECT * FROM penjualan LIMIT 5"
-    python3 coba.py "SELECT region, SUM(revenue) FROM penjualan GROUP BY region"
+    python3 pendukung/coba.py "SELECT * FROM penjualan LIMIT 5"
+    python3 pendukung/coba.py "SELECT region, SUM(revenue) FROM penjualan GROUP BY region"
 
-Semua CSV di data/ dimuat ke database SQLite di memori (tabel: penjualan, kampanye_iklan,
+Semua CSV di pendukung/data/ dimuat ke database SQLite di memori (tabel: penjualan, kampanye_iklan,
 lead, master_sumber), lalu query-mu dijalankan dan hasilnya dicetak sebagai tabel sederhana.
 """
 import csv
@@ -13,13 +13,13 @@ import os
 import sqlite3
 import sys
 
-BASE = os.path.dirname(os.path.abspath(__file__))
-DATA = os.path.join(BASE, "data")
+HERE = os.path.dirname(os.path.abspath(__file__))        # .../pendukung
+DATA = os.path.join(HERE, "data")
 TABEL = ["penjualan", "kampanye_iklan", "lead", "master_sumber"]
 
 # Tipe kolom diambil dari cek_jawaban.py supaya coba.py dan penilai memakai skema yang sama.
 # Tanpa tipe, SQLite memberi TEXT affinity dan angka terurut seperti teks.
-sys.path.insert(0, BASE)
+sys.path.insert(0, HERE)
 from cek_jawaban import SKEMA  # noqa: E402
 
 

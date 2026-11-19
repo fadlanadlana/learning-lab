@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Penilai otomatis jalur SQL level 1.
+"""Penilai otomatis Funnel website per kanal.
 
-Cara pakai:  python3 cek_jawaban.py            (dari folder sql/level-1)
-Semua CSV di data/ dimuat ke database SQLite sementara, query di jawaban.sql dijalankan,
-lalu hasilnya dibandingkan dengan kunci. Tidak butuh library tambahan (stdlib saja).
+Cara pakai:  python3 pendukung/cek_jawaban.py  (dari folder paket-2)
+Semua CSV di pendukung/data/ dimuat ke database SQLite sementara, query di latihan/jawaban.sql
+dijalankan, lalu hasilnya dibandingkan dengan kunci. Tidak butuh library tambahan (stdlib saja).
 """
 import csv
 import os
@@ -11,55 +11,34 @@ import re
 import sqlite3
 import sys
 
-BASE = os.path.dirname(os.path.abspath(__file__))
-DATA = os.path.join(BASE, "data")
-JAWABAN = os.path.join(BASE, "jawaban.sql")
-TABEL = ["penjualan", "kampanye_iklan", "lead", "master_sumber"]
+HERE = os.path.dirname(os.path.abspath(__file__))        # .../pendukung
+ROOT = os.path.dirname(HERE)                             # folder paket (paket-N)
+DATA = os.path.join(HERE, "data")
+JAWABAN = os.path.join(ROOT, "latihan", "jawaban.sql")
+TABEL = ["trafik", "kanal_master"]
 MARKER = re.compile(r"^--\s*=+\s*SOAL\s+(\d+)\s*=+\s*$", re.M)
 
 # Tipe kolom wajib dideklarasikan. Tanpa ini SQLite memberi TEXT affinity ke semua kolom,
-# sehingga ORDER BY angka mengurutkan secara abjad dan perbandingan seperti diskon >= 0.1
-# membandingkan teks ('0' < '0.1' secara string, bukan angka).
+# sehingga ORDER BY angka mengurutkan secara abjad dan perbandingan angka jadi perbandingan teks.
 SKEMA = {
-    "penjualan": {
-        "id": "INTEGER", "tanggal": "TEXT", "bulan": "TEXT", "region": "TEXT", "kanal": "TEXT",
-        "produk": "TEXT", "qty": "INTEGER", "harga": "INTEGER", "diskon": "REAL", "revenue": "INTEGER",
-    },
-    "kampanye_iklan": {
-        "tanggal": "TEXT", "id_kampanye": "TEXT", "nama_kampanye": "TEXT", "kanal": "TEXT",
-        "impresi": "INTEGER", "klik": "INTEGER", "biaya": "INTEGER", "konversi": "INTEGER",
-        "revenue": "INTEGER",
-    },
-    "lead": {
-        "tanggal_masuk": "TEXT", "id_lead": "TEXT", "nama": "TEXT", "kode_sumber": "TEXT",
-        "kota": "TEXT", "status": "TEXT", "nilai": "INTEGER",
-    },
-    "master_sumber": {
-        "kode_sumber": "TEXT", "nama_sumber": "TEXT", "biaya_per_lead": "INTEGER",
-    },
+    "trafik": {"tanggal": "TEXT", "bulan": "TEXT", "kanal": "TEXT", "device": "TEXT", "sesi": "INTEGER", "konversi": "INTEGER", "revenue": "INTEGER"},
+    "kanal_master": {"kanal": "TEXT", "jenis": "TEXT", "biaya_per_klik": "INTEGER"},
 }
 
 # ---------------------------------------------------------------- kunci jawaban (jangan diubah)
 KUNCI = {
-    1: ("SELECT SUM(revenue) FROM penjualan;", False),
-    2: ("SELECT region, SUM(qty) AS total_qty FROM penjualan GROUP BY region ORDER BY total_qty DESC;", True),
-    3: ("SELECT id, produk, revenue FROM penjualan ORDER BY revenue DESC LIMIT 5;", True),
-    4: ("SELECT COUNT(*) FROM penjualan WHERE diskon >= 0.1;", False),
-    5: ("SELECT ROUND(AVG(diskon), 4) FROM penjualan WHERE kanal = 'Marketplace';", False),
-    6: ("SELECT bulan, SUM(revenue) AS total_revenue FROM penjualan GROUP BY bulan ORDER BY bulan ASC;", True),
-    7: ("SELECT region FROM penjualan GROUP BY region HAVING AVG(revenue) > 5000000 ORDER BY region;", True),
-    8: ("SELECT COUNT(DISTINCT produk) FROM penjualan;", False),
-    9: ("SELECT kanal, SUM(biaya) AS total_biaya, SUM(revenue) AS total_revenue, "
-        "ROUND(1.0*SUM(revenue)/SUM(biaya), 2) AS roas FROM kampanye_iklan GROUP BY kanal "
-        "ORDER BY roas DESC;", True),
-    10: ("SELECT m.nama_sumber, COUNT(*) AS jumlah_won FROM lead l "
-         "JOIN master_sumber m ON m.kode_sumber = l.kode_sumber WHERE l.status = 'Won' "
-         "GROUP BY m.nama_sumber ORDER BY jumlah_won DESC;", True),
-    11: ("SELECT CASE WHEN nilai >= 50000000 THEN 'BESAR' WHEN nilai >= 10000000 THEN 'MENENGAH' "
-         "ELSE 'KECIL' END AS kategori, COUNT(*) AS jumlah, SUM(nilai) AS total_nilai FROM lead "
-         "GROUP BY kategori ORDER BY kategori;", True),
-    12: ("SELECT kanal, ROUND(1.0*SUM(revenue)/SUM(biaya), 2) AS roas FROM kampanye_iklan "
-         "GROUP BY kanal ORDER BY roas DESC LIMIT 1;", False),
+    1: ('SELECT SUM(sesi) FROM trafik;', False),
+    2: ('SELECT device, SUM(sesi) AS total_sesi FROM trafik GROUP BY device ORDER BY total_sesi DESC;', True),
+    3: ('SELECT tanggal, kanal, revenue FROM trafik ORDER BY revenue DESC LIMIT 5;', True),
+    4: ('SELECT COUNT(*) FROM trafik WHERE revenue < 1000000;', False),
+    5: ("SELECT ROUND(1.0*SUM(revenue)/SUM(sesi), 4) FROM trafik WHERE kanal = 'Email';", False),
+    6: ('SELECT bulan, SUM(revenue) AS total_revenue FROM trafik GROUP BY bulan ORDER BY bulan ASC;', True),
+    7: ('SELECT kanal FROM trafik GROUP BY kanal HAVING SUM(sesi) > 1500 ORDER BY kanal;', True),
+    8: ('SELECT COUNT(DISTINCT device) FROM trafik;', False),
+    9: ('SELECT t.kanal, SUM(t.sesi*m.biaya_per_klik) AS total_biaya, SUM(t.revenue) AS total_revenue, ROUND(1.0*SUM(t.revenue)/SUM(t.sesi*m.biaya_per_klik), 2) AS roas FROM trafik t JOIN kanal_master m ON m.kanal = t.kanal GROUP BY t.kanal ORDER BY roas DESC;', True),
+    10: ("SELECT t.kanal, SUM(t.revenue) AS total_revenue FROM trafik t JOIN kanal_master m ON m.kanal = t.kanal WHERE m.jenis = 'Paid' GROUP BY t.kanal ORDER BY t.kanal;", True),
+    11: ("SELECT kanal, CASE WHEN SUM(revenue) >= 15000000 THEN 'UTAMA' WHEN SUM(revenue) >= 8000000 THEN 'POTENSIAL' ELSE 'KECIL' END AS label FROM trafik GROUP BY kanal ORDER BY label, kanal;", True),
+    12: ('SELECT m.kanal FROM kanal_master m LEFT JOIN trafik t ON t.kanal = m.kanal WHERE t.kanal IS NULL;', False),
 }
 
 
@@ -183,7 +162,7 @@ def main():
     jawab = baca_jawaban()
     benar = 0
     total = len(KUNCI)
-    print("Penilai jawaban SQL level 1 — %d soal\n" % total)
+    print("Penilai jawaban Funnel website per kanal — %d soal\n" % total)
     for no in sorted(KUNCI):
         q, urut = KUNCI[no]
         milik = jawab.get(no, "")
@@ -204,7 +183,7 @@ def main():
             print("%2d. SALAH    %s" % (no, pesan))
     print("\nSKOR: %d / %d benar" % (benar, total))
     if benar == total:
-        print("STATUS: LULUS SEMPURNA - lanjut ke sql/level-2")
+        print("STATUS: LULUS SEMPURNA")
     elif benar >= total - 2:
         print("STATUS: LULUS BERSYARAT - perbaiki yang SALAH")
     else:

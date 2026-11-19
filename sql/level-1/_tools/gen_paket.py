@@ -12,9 +12,9 @@ BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # -> sql/lev
 CEK_TEMPLATE = '''#!/usr/bin/env python3
 """Penilai otomatis __JUDUL__.
 
-Cara pakai:  python3 cek_jawaban.py            (dari folder __PAKET__)
-Semua CSV di data/ dimuat ke database SQLite sementara, query di jawaban.sql dijalankan,
-lalu hasilnya dibandingkan dengan kunci. Tidak butuh library tambahan (stdlib saja).
+Cara pakai:  python3 pendukung/cek_jawaban.py  (dari folder __PAKET__)
+Semua CSV di pendukung/data/ dimuat ke database SQLite sementara, query di latihan/jawaban.sql
+dijalankan, lalu hasilnya dibandingkan dengan kunci. Tidak butuh library tambahan (stdlib saja).
 """
 import csv
 import os
@@ -22,9 +22,10 @@ import re
 import sqlite3
 import sys
 
-BASE = os.path.dirname(os.path.abspath(__file__))
-DATA = os.path.join(BASE, "data")
-JAWABAN = os.path.join(BASE, "jawaban.sql")
+HERE = os.path.dirname(os.path.abspath(__file__))        # .../pendukung
+ROOT = os.path.dirname(HERE)                             # folder paket (paket-N)
+DATA = os.path.join(HERE, "data")
+JAWABAN = os.path.join(ROOT, "latihan", "jawaban.sql")
 TABEL = __TABEL__
 MARKER = re.compile(r"^--\\s*=+\\s*SOAL\\s+(\\d+)\\s*=+\\s*$", re.M)
 
@@ -204,28 +205,34 @@ SELECT, WHERE, ORDER BY, LIMIT, agregasi, GROUP BY, HAVING, satu JOIN, CASE, DIS
 
 ## Isi folder
 
-| File | Fungsi |
+Dua folder: yang kamu sentuh dan yang tidak.
+
+| Path | Fungsi |
 |---|---|
-| `soal.md` | __NSOAL__ soal + hasil yang diharapkan (kolom & urutan) |
-| `jawaban.sql` | **kamu tulis query di sini**, di bawah tiap penanda `-- === SOAL n ===` |
-| `cek_jawaban.py` | penilai otomatis: CSV -> SQLite, querymu dijalankan, dibandingkan dengan kunci |
-| `data/*.csv` | __TDESC__ |
+| `latihan/soal.md` | __NSOAL__ soal + hasil yang diharapkan (kolom & urutan) |
+| `latihan/jawaban.sql` | **kamu tulis query di sini**, di bawah tiap penanda `-- === SOAL n ===` |
+| `pendukung/cek_jawaban.py` | penilai otomatis: CSV -> SQLite, querymu dijalankan, dibandingkan dengan kunci |
+| `pendukung/data/*.csv` | __TDESC__ |
+
+Yang perlu kamu buka hanya `latihan/`. Isi `pendukung/` (penilai + CSV) jangan diedit.
 
 ## Cara mengerjakan
 
 ```
 cd sql/level-1/__PAKET__
 unset LD_LIBRARY_PATH            # hanya di Termux; di PC/Linux lewati baris ini
-python3 cek_jawaban.py           # jalankan penilai
+python3 pendukung/cek_jawaban.py # jalankan penilai
 ```
 
 Penilai menampilkan **KOSONG**, **BENAR**, atau **SALAH** per soal, lalu skor.
-Database dibangun ulang dari CSV setiap kali dijalankan.
+Database dibangun ulang dari CSV setiap kali dijalankan. Penilai mencari
+`latihan/jawaban.sql` dan `pendukung/data/` dari lokasi file skripnya, jadi boleh dijalankan
+dari folder mana pun.
 
 Kalau satu soal tetap SALAH dan kamu tidak tahu sebabnya, periksa detailnya:
 
 ```
-python3 cek_jawaban.py --detail 11
+python3 pendukung/cek_jawaban.py --detail 11
 ```
 
 Perintah itu menampilkan query kamu apa adanya, hasil yang keluar, kunci beserta hasil kunci, dan
@@ -257,10 +264,13 @@ def tulis_csv(path, header, rows):
 
 def tulis_paket(p):
     d = os.path.join(BASE, p["paket"])
-    os.makedirs(os.path.join(d, "data"), exist_ok=True)
+    latihan = os.path.join(d, "latihan")
+    pendukung = os.path.join(d, "pendukung")
+    os.makedirs(latihan, exist_ok=True)
+    os.makedirs(os.path.join(pendukung, "data"), exist_ok=True)
 
     for tabel, (header, rows) in p["data"].items():
-        tulis_csv(os.path.join(d, "data", tabel + ".csv"), header, rows)
+        tulis_csv(os.path.join(pendukung, "data", tabel + ".csv"), header, rows)
 
     # soal.md
     out = ["# Soal SQL %s — %s\n" % (p["paket"].replace("-", " ").title(), p["judul"]),
@@ -280,11 +290,11 @@ def tulis_paket(p):
         out.append("### SOAL %d" % no)
         out.append(teks)
         out.append("")
-    open(os.path.join(d, "soal.md"), "w", encoding="utf-8").write("\n".join(out))
+    open(os.path.join(latihan, "soal.md"), "w", encoding="utf-8").write("\n".join(out))
 
     # jawaban.sql
     markers = "\n\n\n".join("-- === SOAL %d ===" % no for no, _, _, _ in p["soal"])
-    open(os.path.join(d, "jawaban.sql"), "w", encoding="utf-8").write(
+    open(os.path.join(latihan, "jawaban.sql"), "w", encoding="utf-8").write(
         JAWABAN_TEMPLATE.replace("__JUDUL__", p["judul"]).replace("__MARKER__", markers + "\n"))
 
     # cek_jawaban.py
@@ -303,7 +313,7 @@ def tulis_paket(p):
            .replace("__TABEL__", tabel_list)
            .replace("__SKEMA__", skema)
            .replace("__KUNCI__", kunci))
-    open(os.path.join(d, "cek_jawaban.py"), "w", encoding="utf-8").write(isi)
+    open(os.path.join(pendukung, "cek_jawaban.py"), "w", encoding="utf-8").write(isi)
 
     # README.md
     n = len(p["soal"])

@@ -8,12 +8,22 @@ dengan `GROUP BY`.
 
 | Level | Isi | Cara menilai |
 |---|---|---|
-| `level-1/` | 12 soal: SELECT, WHERE, ORDER BY, agregasi, GROUP BY, HAVING, JOIN, CASE | `python3 cek_jawaban.py` |
+| `level-1/` | 12 soal: SELECT, WHERE, ORDER BY, agregasi, GROUP BY, HAVING, JOIN, CASE | `python3 pendukung/cek_jawaban.py` |
+
+## Struktur tiap folder latihan
+
+Satu folder untuk dikerjakan, satu folder penunjang — lihat `level-1/README.md` untuk peta lengkap:
+
+```
+level-1/latihan/soal.md + latihan/jawaban.sql     <- dikerjakan
+level-1/pendukung/cek_jawaban.py + pendukung/data <- penilai & data
+```
 
 ## Cara kerja penilai
 
-`cek_jawaban.py` memuat semua CSV di `data/` ke database SQLite di memori (stdlib, tanpa server),
-membaca `jawaban.sql`, menjalankan query per soal, lalu membandingkan hasilnya dengan kunci:
+`pendukung/cek_jawaban.py` memuat semua CSV di `pendukung/data/` ke database SQLite di memori
+(stdlib, tanpa server), membaca `latihan/jawaban.sql`, menjalankan query per soal, lalu
+membandingkan hasilnya dengan kunci:
 
 - **isi hasil** yang dinilai (jumlah baris × kolom dan nilainya), nama alias bebas;
 - **urutan baris** ikut diuji pada soal yang meminta `ORDER BY`;

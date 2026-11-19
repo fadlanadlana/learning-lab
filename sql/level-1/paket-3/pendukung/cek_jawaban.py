@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Penilai otomatis Funnel website per kanal.
+"""Penilai otomatis Repeat order pelanggan.
 
-Cara pakai:  python3 cek_jawaban.py            (dari folder paket-2)
-Semua CSV di data/ dimuat ke database SQLite sementara, query di jawaban.sql dijalankan,
-lalu hasilnya dibandingkan dengan kunci. Tidak butuh library tambahan (stdlib saja).
+Cara pakai:  python3 pendukung/cek_jawaban.py  (dari folder paket-3)
+Semua CSV di pendukung/data/ dimuat ke database SQLite sementara, query di latihan/jawaban.sql
+dijalankan, lalu hasilnya dibandingkan dengan kunci. Tidak butuh library tambahan (stdlib saja).
 """
 import csv
 import os
@@ -11,33 +11,35 @@ import re
 import sqlite3
 import sys
 
-BASE = os.path.dirname(os.path.abspath(__file__))
-DATA = os.path.join(BASE, "data")
-JAWABAN = os.path.join(BASE, "jawaban.sql")
-TABEL = ["trafik", "kanal_master"]
+HERE = os.path.dirname(os.path.abspath(__file__))        # .../pendukung
+ROOT = os.path.dirname(HERE)                             # folder paket (paket-N)
+DATA = os.path.join(HERE, "data")
+JAWABAN = os.path.join(ROOT, "latihan", "jawaban.sql")
+TABEL = ["pesanan", "pelanggan", "ongkir"]
 MARKER = re.compile(r"^--\s*=+\s*SOAL\s+(\d+)\s*=+\s*$", re.M)
 
 # Tipe kolom wajib dideklarasikan. Tanpa ini SQLite memberi TEXT affinity ke semua kolom,
 # sehingga ORDER BY angka mengurutkan secara abjad dan perbandingan angka jadi perbandingan teks.
 SKEMA = {
-    "trafik": {"tanggal": "TEXT", "bulan": "TEXT", "kanal": "TEXT", "device": "TEXT", "sesi": "INTEGER", "konversi": "INTEGER", "revenue": "INTEGER"},
-    "kanal_master": {"kanal": "TEXT", "jenis": "TEXT", "biaya_per_klik": "INTEGER"},
+    "pesanan": {"id_pesanan": "TEXT", "tanggal": "TEXT", "bulan": "TEXT", "id_pelanggan": "TEXT", "kota": "TEXT", "kanal": "TEXT", "qty": "INTEGER", "nilai": "INTEGER"},
+    "pelanggan": {"id_pelanggan": "TEXT", "nama": "TEXT", "segmen": "TEXT", "kota_domisili": "TEXT"},
+    "ongkir": {"kota": "TEXT", "tarif_per_kg": "INTEGER"},
 }
 
 # ---------------------------------------------------------------- kunci jawaban (jangan diubah)
 KUNCI = {
-    1: ('SELECT SUM(sesi) FROM trafik;', False),
-    2: ('SELECT device, SUM(sesi) AS total_sesi FROM trafik GROUP BY device ORDER BY total_sesi DESC;', True),
-    3: ('SELECT tanggal, kanal, revenue FROM trafik ORDER BY revenue DESC LIMIT 5;', True),
-    4: ('SELECT COUNT(*) FROM trafik WHERE revenue < 1000000;', False),
-    5: ("SELECT ROUND(1.0*SUM(revenue)/SUM(sesi), 4) FROM trafik WHERE kanal = 'Email';", False),
-    6: ('SELECT bulan, SUM(revenue) AS total_revenue FROM trafik GROUP BY bulan ORDER BY bulan ASC;', True),
-    7: ('SELECT kanal FROM trafik GROUP BY kanal HAVING SUM(sesi) > 1500 ORDER BY kanal;', True),
-    8: ('SELECT COUNT(DISTINCT device) FROM trafik;', False),
-    9: ('SELECT t.kanal, SUM(t.sesi*m.biaya_per_klik) AS total_biaya, SUM(t.revenue) AS total_revenue, ROUND(1.0*SUM(t.revenue)/SUM(t.sesi*m.biaya_per_klik), 2) AS roas FROM trafik t JOIN kanal_master m ON m.kanal = t.kanal GROUP BY t.kanal ORDER BY roas DESC;', True),
-    10: ("SELECT t.kanal, SUM(t.revenue) AS total_revenue FROM trafik t JOIN kanal_master m ON m.kanal = t.kanal WHERE m.jenis = 'Paid' GROUP BY t.kanal ORDER BY t.kanal;", True),
-    11: ("SELECT kanal, CASE WHEN SUM(revenue) >= 15000000 THEN 'UTAMA' WHEN SUM(revenue) >= 8000000 THEN 'POTENSIAL' ELSE 'KECIL' END AS label FROM trafik GROUP BY kanal ORDER BY label, kanal;", True),
-    12: ('SELECT m.kanal FROM kanal_master m LEFT JOIN trafik t ON t.kanal = m.kanal WHERE t.kanal IS NULL;', False),
+    1: ('SELECT SUM(nilai) FROM pesanan;', False),
+    2: ('SELECT id_pelanggan, COUNT(*) AS jumlah_pesanan FROM pesanan GROUP BY id_pelanggan ORDER BY jumlah_pesanan DESC, id_pelanggan ASC;', True),
+    3: ('SELECT p.nama, SUM(o.nilai) AS total_nilai FROM pesanan o JOIN pelanggan p ON p.id_pelanggan = o.id_pelanggan GROUP BY p.nama ORDER BY total_nilai DESC LIMIT 3;', True),
+    4: ('SELECT COUNT(*) FROM pesanan WHERE nilai >= 1000000;', False),
+    5: ("SELECT ROUND(AVG(qty), 2) FROM pesanan WHERE kanal = 'WhatsApp';", False),
+    6: ('SELECT bulan, SUM(nilai) AS total_nilai FROM pesanan GROUP BY bulan ORDER BY bulan ASC;', True),
+    7: ('SELECT kota FROM pesanan GROUP BY kota HAVING AVG(nilai) > 900000 ORDER BY kota;', True),
+    8: ('SELECT COUNT(DISTINCT kota) FROM pesanan;', False),
+    9: ('SELECT p.segmen, COUNT(*) AS jumlah_pesanan, SUM(o.nilai) AS total_nilai FROM pesanan o JOIN pelanggan p ON p.id_pelanggan = o.id_pelanggan GROUP BY p.segmen ORDER BY total_nilai DESC;', True),
+    10: ("SELECT SUM(nilai) FROM pesanan WHERE kanal IN ('Marketplace', 'Website');", False),
+    11: ("SELECT COUNT(*) FROM pesanan o JOIN pelanggan p ON p.id_pelanggan = o.id_pelanggan WHERE p.nama LIKE '%Putri%';", False),
+    12: ('SELECT g.kota FROM ongkir g LEFT JOIN pesanan o ON o.kota = g.kota WHERE o.kota IS NULL;', False),
 }
 
 
@@ -161,7 +163,7 @@ def main():
     jawab = baca_jawaban()
     benar = 0
     total = len(KUNCI)
-    print("Penilai jawaban Funnel website per kanal — %d soal\n" % total)
+    print("Penilai jawaban Repeat order pelanggan — %d soal\n" % total)
     for no in sorted(KUNCI):
         q, urut = KUNCI[no]
         milik = jawab.get(no, "")

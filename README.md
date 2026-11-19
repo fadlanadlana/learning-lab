@@ -17,7 +17,7 @@ learning-lab/
 │   ├── level-3/            # mahir    : 2 workbook (dashboard PivotTable, pembersihan data)
 │   └── selesai/            # salinan hasil pengerjaan (bukti lulus)
 ├── sql/
-│   └── level-1/            # 12 soal + cek_jawaban.py (SQLite) + data/*.csv
+│   └── level-1/            # 12 soal; latihan/ (soal.md + jawaban.sql) + pendukung/ (cek_jawaban.py, data/)
 └── python/
     └── level-1/            # 12 soal + cek_jawaban.py + data/*.csv
 ```
@@ -40,7 +40,7 @@ learning-lab/
 
 | Jalur | Level 1 | Cara menilai |
 |---|---|---|
-| sql | tersedia (12 soal) | `python3 cek_jawaban.py` — query dijalankan di SQLite, hasil dibandingkan dengan kunci |
+| sql | tersedia (12 soal) | `python3 pendukung/cek_jawaban.py` — query dijalankan di SQLite, hasil dibandingkan dengan kunci |
 | python | tersedia (12 soal) | `python3 cek_jawaban.py` — fungsimu dipanggil, hasil dibandingkan dengan kunci |
 
 Ketiga jalur memakai dataset yang sama (penjualan, kampanye iklan, lead), jadi satu angka bisa
