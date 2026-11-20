@@ -13,9 +13,23 @@ import sqlite3
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))        # .../pendukung
-ROOT = os.path.dirname(HERE)                             # folder latihan ini (level-1 / paket-N)
+NAMA_SET = "level-1"
 DATA = os.path.join(HERE, "data")
-JAWABAN = os.path.join(ROOT, "latihan", "jawaban.sql")
+
+
+def _cari_latihan(mulai):
+    """Semua soal & jawaban ada di satu folder latihan/ bersama, di atas pendukung/."""
+    d = mulai
+    for _ in range(4):
+        kandidat = os.path.join(d, "latihan")
+        if os.path.isdir(kandidat):
+            return kandidat
+        d = os.path.dirname(d)
+    raise SystemExit("folder latihan tidak ditemukan di atas %s" % mulai)
+
+
+LATIHAN = _cari_latihan(HERE)
+JAWABAN = os.path.join(LATIHAN, NAMA_SET + "-jawaban.sql")
 TABEL = ["penjualan", "kampanye_iklan", "lead", "master_sumber"]
 MARKER = re.compile(r"^--\s*=+\s*SOAL\s+(\d+)\s*=+\s*$", re.M)
 

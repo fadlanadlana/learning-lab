@@ -12,7 +12,7 @@ Tabel yang tersedia (nama tabel = nama file CSV, tanpa ekstensi):
 Catatan: `diskon` disimpan sebagai pecahan (0.1 = 10%). `bulan` berformat `2026-08`. Kolom `nama`
 di tabel `lead` sengaja masih kotor (spasi ganda, huruf besar semua).
 
-Kerjakan di `jawaban.sql` di bawah tiap penanda soal. Semua soal level 1 cukup dengan SELECT/WHERE/
+Kerjakan di `level-1-jawaban.sql` (satu folder dengan berkas ini) di bawah tiap penanda soal. Semua soal level 1 cukup dengan SELECT/WHERE/
 GROUP BY/JOIN — tidak perlu subquery, kecuali soal 12.
 
 ---

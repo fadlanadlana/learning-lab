@@ -10,7 +10,7 @@ Tabel yang tersedia (nama tabel = nama file CSV, tanpa ekstensi):
 
 Catatan: `kota` di tabel `pesanan` adalah kota pengiriman, bisa beda dengan `kota_domisili` pelanggan. `segmen` pelanggan hanya `Loyal` atau `Baru`. Satu kota di tabel `ongkir` belum pernah dikirimi pesanan.
 
-Kerjakan di `jawaban.sql` di bawah tiap penanda soal. Semua soal level 1 cukup dengan SELECT/WHERE/GROUP BY/JOIN — tidak perlu subquery.
+Kerjakan di `paket-3-jawaban.sql` (satu folder dengan berkas ini) di bawah tiap penanda soal. Semua soal level 1 cukup dengan SELECT/WHERE/GROUP BY/JOIN — tidak perlu subquery.
 
 ---
 

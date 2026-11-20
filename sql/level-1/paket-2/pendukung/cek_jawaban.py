@@ -2,7 +2,7 @@
 """Penilai otomatis Funnel website per kanal.
 
 Cara pakai:  python3 pendukung/cek_jawaban.py  (dari folder paket-2)
-Semua CSV di pendukung/data/ dimuat ke database SQLite sementara, query di latihan/jawaban.sql
+Semua CSV di pendukung/data/ dimuat ke database SQLite sementara, query di latihan/paket-2-jawaban.sql
 dijalankan, lalu hasilnya dibandingkan dengan kunci. Tidak butuh library tambahan (stdlib saja).
 """
 import csv
@@ -12,9 +12,23 @@ import sqlite3
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))        # .../pendukung
-ROOT = os.path.dirname(HERE)                             # folder paket (paket-N)
+NAMA_SET = "paket-2"
 DATA = os.path.join(HERE, "data")
-JAWABAN = os.path.join(ROOT, "latihan", "jawaban.sql")
+
+
+def _cari_latihan(mulai):
+    """Semua soal & jawaban ada di satu folder latihan/ bersama, di atas pendukung/."""
+    d = mulai
+    for _ in range(4):
+        kandidat = os.path.join(d, "latihan")
+        if os.path.isdir(kandidat):
+            return kandidat
+        d = os.path.dirname(d)
+    raise SystemExit("folder latihan tidak ditemukan di atas %s" % mulai)
+
+
+LATIHAN = _cari_latihan(HERE)
+JAWABAN = os.path.join(LATIHAN, NAMA_SET + "-jawaban.sql")
 TABEL = ["trafik", "kanal_master"]
 MARKER = re.compile(r"^--\s*=+\s*SOAL\s+(\d+)\s*=+\s*$", re.M)
 

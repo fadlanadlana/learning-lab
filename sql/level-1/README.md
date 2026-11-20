@@ -5,24 +5,33 @@ sehingga terasa kaitannya: angka yang dulu dihitung dengan SUMIFS sekarang diamb
 
 ## Struktur folder
 
-Tiap folder latihan (`level-1/`, `paket-2/` … `paket-5/`) bentuknya sama: satu folder untuk yang
-kamu kerjakan, satu folder untuk penunjangnya. Hanya `latihan/` yang perlu dibuka.
+Semua soal dan jawaban dikumpulkan di satu folder `latihan/`, satu berkas per paket. Sisanya
+(penilai + CSV) ada di `pendukung/` masing-masing paket dan tidak perlu dibuka.
 
 ```
 level-1/
-├── latihan/                 <- buka ini
-│   ├── soal.md              12 soal + hasil yang diharapkan (kolom & urutan)
-│   └── jawaban.sql          KAMU tulis query di sini, di bawah tiap `-- === SOAL n ===`
-├── pendukung/               <- jangan diedit
-│   ├── cek_jawaban.py       penilai otomatis: CSV -> SQLite, querymu dijalankan, dibandingkan kunci
-│   ├── coba.py              uji query langsung tanpa mengubah jawaban.sql
-│   └── data/*.csv           4 tabel: penjualan (60 baris), kampanye_iklan (30), lead (28), master_sumber (4)
-├── _tools/gen_paket.py      generator paket-2..paket-5
-└── README.md                halaman ini
+├── latihan/                        <- satu-satunya folder yang perlu dibuka
+│   ├── level-1-soal.md             12 soal + hasil yang diharapkan (kolom & urutan)
+│   ├── level-1-jawaban.sql         KAMU tulis query di sini
+│   ├── paket-2-soal.md             paket funnel website
+│   ├── paket-2-jawaban.sql
+│   ├── paket-3-soal.md             paket repeat order
+│   ├── paket-3-jawaban.sql
+│   ├── paket-4-soal.md             paket biaya iklan & CPL
+│   ├── paket-4-jawaban.sql
+│   ├── paket-5-soal.md             paket penjualan produk & stok
+│   └── paket-5-jawaban.sql
+├── pendukung/                      <- level-1: penilai, coba.py, data
+│   ├── cek_jawaban.py
+│   ├── coba.py
+│   └── data/*.csv                  4 tabel: penjualan (60), kampanye_iklan (30), lead (28), master_sumber (4)
+├── paket-2/ … paket-5/             <- masing-masing hanya berisi pendukung/ (penilai + data paket)
+├── _tools/gen_paket.py             generator paket-2..paket-5
+└── README.md                       halaman ini
 ```
 
-Penilai mencari `latihan/jawaban.sql` dan `pendukung/data/` dari lokasi file skripnya, bukan dari
-folder tempat kamu berdiri — jadi `python3 pendukung/cek_jawaban.py` jalan dari folder mana pun.
+Penilai mencari `<set>-jawaban.sql` di folder `latihan/` bersama dan `pendukung/data/` miliknya sendiri,
+dihitung dari lokasi file skripnya — bukan dari folder tempat kamu berdiri — jadi `python3 pendukung/cek_jawaban.py` jalan dari folder mana pun.
 
 ## Cara mengerjakan
 
@@ -39,7 +48,7 @@ jadi kamu boleh mengubah data, tapi angka kunci ikut berubah.
 Mau mencoba query tanpa menyentuh `jawaban.sql`:
 
 ```
-python3 pendukung/coba.py "SELECT * FROM penjualan LIMIT 5"
+python3 pendukung/coba.py "SELECT * FROM penjualan LIMIT 5"   # hanya ada di level-1
 ```
 
 Kalau satu soal tetap SALAH dan kamu tidak tahu sebabnya, periksa detailnya:

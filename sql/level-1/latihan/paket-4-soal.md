@@ -9,7 +9,7 @@ Tabel yang tersedia (nama tabel = nama file CSV, tanpa ekstensi):
 
 Catatan: `biaya` dalam rupiah, `lead` = jumlah prospek yang masuk. CPL = biaya / lead. Satu platform di `platform_master` belum pernah dipakai beriklan.
 
-Kerjakan di `jawaban.sql` di bawah tiap penanda soal. Semua soal level 1 cukup dengan SELECT/WHERE/GROUP BY/JOIN — tidak perlu subquery.
+Kerjakan di `paket-4-jawaban.sql` (satu folder dengan berkas ini) di bawah tiap penanda soal. Semua soal level 1 cukup dengan SELECT/WHERE/GROUP BY/JOIN — tidak perlu subquery.
 
 ---
 

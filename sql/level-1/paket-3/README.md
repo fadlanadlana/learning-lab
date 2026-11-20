@@ -9,12 +9,13 @@ Dua folder: yang kamu sentuh dan yang tidak.
 
 | Path | Fungsi |
 |---|---|
-| `latihan/soal.md` | 12 soal + hasil yang diharapkan (kolom & urutan) |
-| `latihan/jawaban.sql` | **kamu tulis query di sini**, di bawah tiap penanda `-- === SOAL n ===` |
+| `../latihan/paket-3-soal.md` | 12 soal + hasil yang diharapkan (kolom & urutan) |
+| `../latihan/paket-3-jawaban.sql` | **kamu tulis query di sini**, di bawah tiap penanda `-- === SOAL n ===` |
 | `pendukung/cek_jawaban.py` | penilai otomatis: CSV -> SQLite, querymu dijalankan, dibandingkan dengan kunci |
 | `pendukung/data/*.csv` | 3 tabel: `pesanan` (24 baris), `pelanggan` (10 baris), `ongkir` (5 baris) |
 
-Yang perlu kamu buka hanya `latihan/`. Isi `pendukung/` (penilai + CSV) jangan diedit.
+Soal & jawaban semua paket dikumpulkan di `sql/level-1/latihan/`, satu berkas per paket.
+Isi `pendukung/` (penilai + CSV) jangan diedit.
 
 ## Cara mengerjakan
 
@@ -26,7 +27,7 @@ python3 pendukung/cek_jawaban.py # jalankan penilai
 
 Penilai menampilkan **KOSONG**, **BENAR**, atau **SALAH** per soal, lalu skor.
 Database dibangun ulang dari CSV setiap kali dijalankan. Penilai mencari
-`latihan/jawaban.sql` dan `pendukung/data/` dari lokasi file skripnya, jadi boleh dijalankan
+`latihan/paket-3-jawaban.sql` dan `pendukung/data/` dari lokasi file skripnya, jadi boleh dijalankan
 dari folder mana pun.
 
 Kalau satu soal tetap SALAH dan kamu tidak tahu sebabnya, periksa detailnya:

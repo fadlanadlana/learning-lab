@@ -9,7 +9,7 @@ Tabel yang tersedia (nama tabel = nama file CSV, tanpa ekstensi):
 
 Catatan: tabel `penjualan_produk` **tidak** punya kolom kategori — kategori dan nama produk hanya ada di tabel `produk`, jadi soal yang menyebut kategori butuh JOIN. Ada SKU di `produk` yang belum pernah terjual.
 
-Kerjakan di `jawaban.sql` di bawah tiap penanda soal. Semua soal level 1 cukup dengan SELECT/WHERE/GROUP BY/JOIN — tidak perlu subquery.
+Kerjakan di `paket-5-jawaban.sql` (satu folder dengan berkas ini) di bawah tiap penanda soal. Semua soal level 1 cukup dengan SELECT/WHERE/GROUP BY/JOIN — tidak perlu subquery.
 
 ---
 

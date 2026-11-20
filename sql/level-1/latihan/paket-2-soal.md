@@ -9,7 +9,7 @@ Tabel yang tersedia (nama tabel = nama file CSV, tanpa ekstensi):
 
 Catatan: `sesi` = jumlah kunjungan, `konversi` = jumlah transaksi yang terjadi dari kunjungan itu. `kanal_master.biaya_per_klik` dipakai untuk menghitung biaya: `sesi * biaya_per_klik`. Satu kanal di `kanal_master` belum pernah punya baris trafik.
 
-Kerjakan di `jawaban.sql` di bawah tiap penanda soal. Semua soal level 1 cukup dengan SELECT/WHERE/GROUP BY/JOIN — tidak perlu subquery.
+Kerjakan di `paket-2-jawaban.sql` (satu folder dengan berkas ini) di bawah tiap penanda soal. Semua soal level 1 cukup dengan SELECT/WHERE/GROUP BY/JOIN — tidak perlu subquery.
 
 ---
 
