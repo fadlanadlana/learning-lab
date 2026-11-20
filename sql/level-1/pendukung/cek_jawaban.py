@@ -13,7 +13,7 @@ import sqlite3
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))        # .../pendukung
-NAMA_SET = "level-1"
+NAMA_SET = "paket-1"
 DATA = os.path.join(HERE, "data")
 
 

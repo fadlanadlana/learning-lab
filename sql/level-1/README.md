@@ -11,8 +11,8 @@ Semua soal dan jawaban dikumpulkan di satu folder `latihan/`, satu berkas per pa
 ```
 level-1/
 ├── latihan/                        <- satu-satunya folder yang perlu dibuka
-│   ├── level-1-soal.md             12 soal + hasil yang diharapkan (kolom & urutan)
-│   ├── level-1-jawaban.sql         KAMU tulis query di sini
+│   ├── paket-1-soal.md             12 soal + hasil yang diharapkan (kolom & urutan)
+│   ├── paket-1-jawaban.sql         KAMU tulis query di sini
 │   ├── paket-2-soal.md             paket funnel website
 │   ├── paket-2-jawaban.sql
 │   ├── paket-3-soal.md             paket repeat order
