@@ -1,44 +1,90 @@
-# Level 3 — Mahir (PivotTable, Power Query, kualitas data)
+# spreadsheet/level-3 — PivotTable & Power Query (format baru)
 
-Dua workbook, tema: analisis lanjutan dan pembersihan data. Kontrak 3 sheet tetap sama
-(`1_Brief` / `2_Latihan` / `3_Validasi`), plus kolom **Hasil yang diharapkan** di blok REKAP.
+Dua workbook, dua fokus. Tiap workbook bentuknya sama: satu sheet masalah, satu sheet data mentah,
+satu sheet soal, satu sheet kerja untuk kamu, satu sheet kunci.
 
-| # | File | Fokus | Tugas rekap | Kolom isian |
-|---|---|---|---|---|
-| 1 | `level-3-dashboard-penjualan-pivot.xlsx` | dashboard penjualan: tren bulanan, region, growth, kontribusi | 13 | — (kolom Revenue sudah diisi) |
-| 2 | `level-3-pembersihan-data.xlsx` | kualitas data: duplikat, spasi, angka tersimpan sebagai teks | 12 | Kota Bersih 40 baris |
+## Struktur folder
 
-## Rumus dan cara kerja yang dilatih
+```
+level-3/
+├── latihan/                                    <- buka di Excel/WPS
+│   ├── level-3-dashboard-penjualan-pivot.xlsx      240 baris data, 13 soal, fokus PivotTable
+│   └── level-3-pembersihan-data.xlsx               120 baris data kotor, 12 soal, fokus Power Query
+├── pendukung/
+│   ├── cek_kerja.py                           penilai otomatis (BENAR/SALAH per soal)
+│   └── kunci/*.json                           kunci mesin yang dibaca penilai
+├── _tools/gen_workbook.py                     generator kedua workbook
+└── README.md
+```
 
-**File 1 (dashboard):**
-- SUMIFS multi-kriteria (region + bulan), AVERAGEIF, COUNTIFS
-- `SUMPRODUCT(1/COUNTIFS(...))` untuk menghitung kombinasi unik Region-Kanal
-- pertumbuhan periode: `(Okt - Sep) / Sep`
-- kontribusi persen dan capaian target dari parameter
-- alur kerja: buat PivotTable dulu untuk eksplorasi, cocokkan angkanya dengan rumus yang dilaporkan
+## Isi tiap workbook
 
-**File 2 (kualitas data):**
-- `SUMPRODUCT(1/COUNTIF(...))` → nilai unik; `SUMPRODUCT(--(COUNTIF(...)>1))` → baris duplikat
-- `SUMPRODUCT(--ISTEXT(...))` → jumlah sel yang salah tipe
-- `SUMPRODUCT(--(...))` → menjumlahkan kolom yang campur angka dan teks
-- `LEN` vs `TRIM` → menghitung spasi berlebih; `COUNTIF` wildcard `"*jakarta*"`
-- `PROPER(TRIM(...))` untuk membersihkan 40 baris kota
-- alur kerja: Power Query (hapus spasi, ubah tipe, hapus duplikat) untuk membersihkan, rumus untuk
-  mengukur seberapa kotor datanya sebelum dibersihkan
+| Sheet | Isi | Kamu sentuh? |
+|---|---|---|
+| `1_Masalah` | konteks bisnis, pertanyaan yang harus dijawab, tujuan, tool yang dilatih, target per region (workbook pivot) | baca |
+| `2_Data` | data mentah apa adanya — jangan diubah | tidak |
+| `3_Soal` | 12-13 soal: pertanyaan, bentuk jawaban, letak jawaban | baca |
+| `4_Kerja` | blok jawaban SOAL / KUNCI BARIS / JAWABAN (kolom C kamu isi) + tempat pivot & Power Query | **ya** |
+| `5_Kunci` | nilai yang diharapkan per baris blok jawaban | buka terakhir |
 
-## Angka acuan dataset
+Blok jawaban ada di `4_Kerja` mulai baris 3. Kolom A (nomor soal) dan B (kunci baris) sudah
+disediakan; kamu hanya mengisi kolom C. Jangan pindahkan bloknya — penilai membaca dari situ.
+Pivot table atau hasil Power Query taruh di sebelah kanan blok (mulai kolom F) atau di sheet baru.
 
-- Penjualan: 60 baris, total revenue Rp 427.283.425, September Rp 149.249.600, Oktober Rp 194.191.975
-  (growth 30,11%), Region Sumatera Rp 60.337.350 (target Rp 60.000.000 → capaian 100,6%)
-- Pembersihan: 40 baris, 35 ID unik (10 baris duplikat), 10 sel nilai bertipe teks,
-  total nilai Rp 93.568.000, 5 baris kota mengandung "jakarta", 17 baris kota berspasi berlebih
+## Cara mengerjakan
+
+1. Buka workbook dari folder `latihan/` di Excel/WPS/Google Sheets.
+2. Baca `1_Masalah`, lalu `3_Soal`.
+3. Kerjakan di `4_Kerja`, lalu isi kolom C. Angka di kolom C harus nilai jadi: kalau berasal dari
+   pivot atau formula, salin sebagai nilai (Paste Special > Values), karena penilai tidak
+   menghitung ulang formula.
+4. Jalankan penilai dari Termux:
+
+```
+cd spreadsheet/level-3
+python3 pendukung/cek_kerja.py latihan/level-3-dashboard-penjualan-pivot.xlsx
+python3 pendukung/cek_kerja.py latihan/level-3-pembersihan-data.xlsx
+python3 pendukung/cek_kerja.py latihan/level-3-pembersihan-data.xlsx --detail 5
+```
+
+Penilai mencetak BENAR/SALAH per soal, skor, dan status. Untuk workbook pembersihan, penilai juga
+memeriksa tabel **DataBersih** (100 baris: `id_transaksi`, `kota_bersih`, `nilai`).
 
 ## Kriteria lulus
 
-File 1: 13/13 BENAR. File 2: 12/12 rekap BENAR dan 40/40 baris Kota Bersih benar.
-80% ke atas = lulus bersyarat.
+- Dashboard: 13/13 soal benar.
+- Pembersihan: 12/12 soal benar dan tabel DataBersih benar (100 baris, kota bersih, nilai angka).
+- Kurang 2 soal = lulus bersyarat.
 
-## Catatan
+## Catatan jujur soal penilaian
 
-Beberapa kunci memakai rumus array (`SUMPRODUCT`). Kalau muncul `#VALUE!`, biasanya karena range
-yang diblok tidak sama panjang dengan range pembanding — periksa `$` dan baris akhirnya.
+Penilai memeriksa **hasil**, bukan bahwa kamu benar-benar memakai PivotTable atau Power Query.
+Kalau langkah tool-nya mau ikut diperiksa (bukti Remove Duplicates, Change Type, Trim), kirim
+filenya setelah selesai.
+
+## Angka acuan (untuk mengecek kewajaran hasilmu)
+
+Dashboard, 240 baris:
+
+    total revenue        965.710.750
+    total qty            3.676
+    kombinasi region x kanal unik   20
+    produk dengan revenue terbesar  PR-05 Sepatu Sneaker
+    rata-rata diskon Marketplace    0,0829
+    growth Oktober vs September     -28,69%   (turun, bukan naik)
+    kontribusi region teratas       23,03%
+    transaksi dengan diskon >= 10%  111
+    capaian target Bali             344,09%
+
+Pembersihan, 120 baris:
+
+    100 transaksi unik, 20 baris duplikat
+    37 sel nilai tersimpan sebagai teks
+    total nilai semua baris         222.550.000
+    baris kota mengandung "jakarta" 32
+    baris kota berspasi berlebih    51
+    total nilai setelah bersih      175.550.000
+    kota unik setelah bersih        5
+    rata-rata nilai bersih          1.755.500
+
+Angka lengkap dan resmi ada di `5_Kunci` dan `pendukung/kunci/*.json`.

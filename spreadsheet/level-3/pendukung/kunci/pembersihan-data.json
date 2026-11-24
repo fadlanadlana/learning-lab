@@ -1,0 +1,640 @@
+{
+ "file": "level-3-pembersihan-data.xlsx",
+ "judul": "Pembersihan Data (Power Query)",
+ "soal": [
+  {
+   "no": 1,
+   "teks": "Jumlah baris di 2_Data (data mentah apa adanya).",
+   "tipe": "angka",
+   "baris": [
+    {
+     "kunci": "baris_mentah",
+     "nilai": 120
+    }
+   ]
+  },
+  {
+   "no": 2,
+   "teks": "Jumlah id_transaksi unik.",
+   "tipe": "angka",
+   "baris": [
+    {
+     "kunci": "id_unik",
+     "nilai": 100
+    }
+   ]
+  },
+  {
+   "no": 3,
+   "teks": "Jumlah baris duplikat (baris mentah dikurangi id unik).",
+   "tipe": "angka",
+   "baris": [
+    {
+     "kunci": "baris_duplikat",
+     "nilai": 20
+    }
+   ]
+  },
+  {
+   "no": 4,
+   "teks": "Jumlah sel di kolom nilai yang tersimpan sebagai TEKS, bukan angka.",
+   "tipe": "angka",
+   "baris": [
+    {
+     "kunci": "nilai_berupa_teks",
+     "nilai": 37
+    }
+   ]
+  },
+  {
+   "no": 5,
+   "teks": "Total nilai seluruh 120 baris setelah teks dikonversi ke angka.",
+   "tipe": "angka",
+   "baris": [
+    {
+     "kunci": "total_nilai_semua",
+     "nilai": 222550000
+    }
+   ]
+  },
+  {
+   "no": 6,
+   "teks": "Jumlah baris yang kotanya mengandung 'jakarta' (abaikan huruf besar/kecil dan spasi).",
+   "tipe": "angka",
+   "baris": [
+    {
+     "kunci": "baris_kota_jakarta",
+     "nilai": 32
+    }
+   ]
+  },
+  {
+   "no": 7,
+   "teks": "Jumlah baris yang kota-nya punya spasi berlebih di awal/akhir.",
+   "tipe": "angka",
+   "baris": [
+    {
+     "kunci": "baris_kota_spasi",
+     "nilai": 51
+    }
+   ]
+  },
+  {
+   "no": 8,
+   "teks": "Jumlah baris di tabel DataBersih (setelah duplikat dibuang).",
+   "tipe": "angka",
+   "baris": [
+    {
+     "kunci": "baris_bersih",
+     "nilai": 100
+    }
+   ]
+  },
+  {
+   "no": 9,
+   "teks": "Total nilai di tabel DataBersih.",
+   "tipe": "angka",
+   "baris": [
+    {
+     "kunci": "total_nilai_bersih",
+     "nilai": 175550000
+    }
+   ]
+  },
+  {
+   "no": 10,
+   "teks": "Jumlah kota unik di DataBersih setelah dibersihkan (TRIM + PROPER).",
+   "tipe": "angka",
+   "baris": [
+    {
+     "kunci": "kota_unik_bersih",
+     "nilai": 5
+    }
+   ]
+  },
+  {
+   "no": 11,
+   "teks": "Jumlah baris DataBersih dengan nilai di atas 1.000.000.",
+   "tipe": "angka",
+   "baris": [
+    {
+     "kunci": "baris_nilai_gt_1jt",
+     "nilai": 68
+    }
+   ]
+  },
+  {
+   "no": 12,
+   "teks": "Rata-rata nilai di DataBersih, bulatkan 0 desimal.",
+   "tipe": "angka",
+   "baris": [
+    {
+     "kunci": "rata_nilai_bersih",
+     "nilai": 1755500.0
+    }
+   ]
+  }
+ ],
+ "bersih": [
+  [
+   "TRX-0001",
+   "Medan",
+   1300000
+  ],
+  [
+   "TRX-0002",
+   "Medan",
+   2050000
+  ],
+  [
+   "TRX-0003",
+   "Jakarta",
+   2650000
+  ],
+  [
+   "TRX-0004",
+   "Semarang",
+   500000
+  ],
+  [
+   "TRX-0005",
+   "Bandung",
+   2200000
+  ],
+  [
+   "TRX-0006",
+   "Semarang",
+   3300000
+  ],
+  [
+   "TRX-0007",
+   "Jakarta",
+   650000
+  ],
+  [
+   "TRX-0008",
+   "Surabaya",
+   550000
+  ],
+  [
+   "TRX-0009",
+   "Jakarta",
+   2600000
+  ],
+  [
+   "TRX-0010",
+   "Jakarta",
+   3150000
+  ],
+  [
+   "TRX-0011",
+   "Medan",
+   1850000
+  ],
+  [
+   "TRX-0012",
+   "Jakarta",
+   900000
+  ],
+  [
+   "TRX-0013",
+   "Bandung",
+   3250000
+  ],
+  [
+   "TRX-0014",
+   "Semarang",
+   950000
+  ],
+  [
+   "TRX-0015",
+   "Medan",
+   150000
+  ],
+  [
+   "TRX-0016",
+   "Semarang",
+   2650000
+  ],
+  [
+   "TRX-0017",
+   "Semarang",
+   2950000
+  ],
+  [
+   "TRX-0018",
+   "Jakarta",
+   2600000
+  ],
+  [
+   "TRX-0019",
+   "Jakarta",
+   200000
+  ],
+  [
+   "TRX-0020",
+   "Surabaya",
+   3200000
+  ],
+  [
+   "TRX-0021",
+   "Bandung",
+   2100000
+  ],
+  [
+   "TRX-0022",
+   "Semarang",
+   1400000
+  ],
+  [
+   "TRX-0023",
+   "Medan",
+   800000
+  ],
+  [
+   "TRX-0024",
+   "Jakarta",
+   1750000
+  ],
+  [
+   "TRX-0025",
+   "Semarang",
+   550000
+  ],
+  [
+   "TRX-0026",
+   "Bandung",
+   1900000
+  ],
+  [
+   "TRX-0027",
+   "Bandung",
+   3000000
+  ],
+  [
+   "TRX-0028",
+   "Jakarta",
+   950000
+  ],
+  [
+   "TRX-0029",
+   "Surabaya",
+   350000
+  ],
+  [
+   "TRX-0030",
+   "Medan",
+   250000
+  ],
+  [
+   "TRX-0031",
+   "Jakarta",
+   2150000
+  ],
+  [
+   "TRX-0032",
+   "Jakarta",
+   400000
+  ],
+  [
+   "TRX-0033",
+   "Surabaya",
+   600000
+  ],
+  [
+   "TRX-0034",
+   "Jakarta",
+   2550000
+  ],
+  [
+   "TRX-0035",
+   "Jakarta",
+   850000
+  ],
+  [
+   "TRX-0036",
+   "Medan",
+   2950000
+  ],
+  [
+   "TRX-0037",
+   "Semarang",
+   2100000
+  ],
+  [
+   "TRX-0038",
+   "Jakarta",
+   3300000
+  ],
+  [
+   "TRX-0039",
+   "Medan",
+   1050000
+  ],
+  [
+   "TRX-0040",
+   "Bandung",
+   2950000
+  ],
+  [
+   "TRX-0041",
+   "Bandung",
+   1400000
+  ],
+  [
+   "TRX-0042",
+   "Bandung",
+   1450000
+  ],
+  [
+   "TRX-0043",
+   "Bandung",
+   550000
+  ],
+  [
+   "TRX-0044",
+   "Bandung",
+   1500000
+  ],
+  [
+   "TRX-0045",
+   "Medan",
+   3000000
+  ],
+  [
+   "TRX-0046",
+   "Jakarta",
+   1900000
+  ],
+  [
+   "TRX-0047",
+   "Surabaya",
+   1000000
+  ],
+  [
+   "TRX-0048",
+   "Medan",
+   1650000
+  ],
+  [
+   "TRX-0049",
+   "Jakarta",
+   600000
+  ],
+  [
+   "TRX-0050",
+   "Bandung",
+   3150000
+  ],
+  [
+   "TRX-0051",
+   "Jakarta",
+   3450000
+  ],
+  [
+   "TRX-0052",
+   "Semarang",
+   700000
+  ],
+  [
+   "TRX-0053",
+   "Medan",
+   150000
+  ],
+  [
+   "TRX-0054",
+   "Semarang",
+   3100000
+  ],
+  [
+   "TRX-0055",
+   "Bandung",
+   1500000
+  ],
+  [
+   "TRX-0056",
+   "Medan",
+   1800000
+  ],
+  [
+   "TRX-0057",
+   "Surabaya",
+   2300000
+  ],
+  [
+   "TRX-0058",
+   "Medan",
+   550000
+  ],
+  [
+   "TRX-0059",
+   "Jakarta",
+   3150000
+  ],
+  [
+   "TRX-0060",
+   "Semarang",
+   3300000
+  ],
+  [
+   "TRX-0061",
+   "Jakarta",
+   1200000
+  ],
+  [
+   "TRX-0062",
+   "Semarang",
+   1450000
+  ],
+  [
+   "TRX-0063",
+   "Bandung",
+   1400000
+  ],
+  [
+   "TRX-0064",
+   "Semarang",
+   300000
+  ],
+  [
+   "TRX-0065",
+   "Jakarta",
+   3250000
+  ],
+  [
+   "TRX-0066",
+   "Bandung",
+   2700000
+  ],
+  [
+   "TRX-0067",
+   "Bandung",
+   2900000
+  ],
+  [
+   "TRX-0068",
+   "Semarang",
+   300000
+  ],
+  [
+   "TRX-0069",
+   "Bandung",
+   1600000
+  ],
+  [
+   "TRX-0070",
+   "Surabaya",
+   3300000
+  ],
+  [
+   "TRX-0071",
+   "Medan",
+   1400000
+  ],
+  [
+   "TRX-0072",
+   "Medan",
+   1150000
+  ],
+  [
+   "TRX-0073",
+   "Bandung",
+   1000000
+  ],
+  [
+   "TRX-0074",
+   "Surabaya",
+   1350000
+  ],
+  [
+   "TRX-0075",
+   "Bandung",
+   700000
+  ],
+  [
+   "TRX-0076",
+   "Medan",
+   950000
+  ],
+  [
+   "TRX-0077",
+   "Medan",
+   2450000
+  ],
+  [
+   "TRX-0078",
+   "Semarang",
+   600000
+  ],
+  [
+   "TRX-0079",
+   "Jakarta",
+   1050000
+  ],
+  [
+   "TRX-0080",
+   "Bandung",
+   1950000
+  ],
+  [
+   "TRX-0081",
+   "Semarang",
+   600000
+  ],
+  [
+   "TRX-0082",
+   "Surabaya",
+   2900000
+  ],
+  [
+   "TRX-0083",
+   "Semarang",
+   1400000
+  ],
+  [
+   "TRX-0084",
+   "Medan",
+   2700000
+  ],
+  [
+   "TRX-0085",
+   "Semarang",
+   2200000
+  ],
+  [
+   "TRX-0086",
+   "Medan",
+   1800000
+  ],
+  [
+   "TRX-0087",
+   "Jakarta",
+   2500000
+  ],
+  [
+   "TRX-0088",
+   "Bandung",
+   600000
+  ],
+  [
+   "TRX-0089",
+   "Surabaya",
+   450000
+  ],
+  [
+   "TRX-0090",
+   "Surabaya",
+   1300000
+  ],
+  [
+   "TRX-0091",
+   "Jakarta",
+   900000
+  ],
+  [
+   "TRX-0092",
+   "Semarang",
+   1650000
+  ],
+  [
+   "TRX-0093",
+   "Medan",
+   2550000
+  ],
+  [
+   "TRX-0094",
+   "Jakarta",
+   3400000
+  ],
+  [
+   "TRX-0095",
+   "Semarang",
+   600000
+  ],
+  [
+   "TRX-0096",
+   "Semarang",
+   3150000
+  ],
+  [
+   "TRX-0097",
+   "Medan",
+   2850000
+  ],
+  [
+   "TRX-0098",
+   "Medan",
+   2450000
+  ],
+  [
+   "TRX-0099",
+   "Surabaya",
+   2000000
+  ],
+  [
+   "TRX-0100",
+   "Jakarta",
+   2750000
+  ]
+ ]
+}

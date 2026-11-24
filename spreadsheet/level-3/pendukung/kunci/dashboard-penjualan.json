@@ -1,0 +1,188 @@
+{
+ "file": "level-3-dashboard-penjualan-pivot.xlsx",
+ "judul": "Dashboard Penjualan (PivotTable)",
+ "soal": [
+  {
+   "no": 1,
+   "teks": "Total revenue seluruh data (240 baris).",
+   "tipe": "angka",
+   "baris": [
+    {
+     "kunci": "total_revenue",
+     "nilai": 965710750
+    }
+   ]
+  },
+  {
+   "no": 2,
+   "teks": "Total qty seluruh data.",
+   "tipe": "angka",
+   "baris": [
+    {
+     "kunci": "total_qty",
+     "nilai": 3676
+    }
+   ]
+  },
+  {
+   "no": 3,
+   "teks": "Jumlah baris transaksi.",
+   "tipe": "angka",
+   "baris": [
+    {
+     "kunci": "jumlah_transaksi",
+     "nilai": 240
+    }
+   ]
+  },
+  {
+   "no": 4,
+   "teks": "Revenue per region (5 baris, nama region sudah disediakan di blok jawaban).",
+   "tipe": "tabel",
+   "baris": [
+    {
+     "kunci": "Jawa Barat",
+     "nilai": 168963750
+    },
+    {
+     "kunci": "Jawa Timur",
+     "nilai": 205988500
+    },
+    {
+     "kunci": "Jabodetabek",
+     "nilai": 222442250
+    },
+    {
+     "kunci": "Sumatera",
+     "nilai": 213474750
+    },
+    {
+     "kunci": "Bali",
+     "nilai": 154841500
+    }
+   ]
+  },
+  {
+   "no": 5,
+   "teks": "Revenue per bulan (3 baris).",
+   "tipe": "tabel",
+   "baris": [
+    {
+     "kunci": "2026-08",
+     "nilai": 346556750
+    },
+    {
+     "kunci": "2026-09",
+     "nilai": 361417750
+    },
+    {
+     "kunci": "2026-10",
+     "nilai": 257736250
+    }
+   ]
+  },
+  {
+   "no": 6,
+   "teks": "Revenue per kanal (4 baris).",
+   "tipe": "tabel",
+   "baris": [
+    {
+     "kunci": "Marketplace",
+     "nilai": 247097250
+    },
+    {
+     "kunci": "Retail",
+     "nilai": 219819250
+    },
+    {
+     "kunci": "Distributor",
+     "nilai": 192070500
+    },
+    {
+     "kunci": "Website",
+     "nilai": 306723750
+    }
+   ]
+  },
+  {
+   "no": 7,
+   "teks": "Jumlah kombinasi region-kanal yang unik (pasangan berbeda).",
+   "tipe": "angka",
+   "baris": [
+    {
+     "kunci": "kombinasi_region_kanal",
+     "nilai": 20
+    }
+   ]
+  },
+  {
+   "no": 8,
+   "teks": "Nama produk dengan revenue terbesar (tulis persis seperti di data).",
+   "tipe": "teks",
+   "baris": [
+    {
+     "kunci": "produk_terlaris",
+     "nilai": "PR-05 Sepatu Sneaker"
+    }
+   ]
+  },
+  {
+   "no": 9,
+   "teks": "Rata-rata diskon kanal Marketplace dalam bentuk pecahan 4 desimal (contoh format: 0,1234), bukan persen.",
+   "tipe": "angka",
+   "baris": [
+    {
+     "kunci": "rata_diskon_marketplace",
+     "nilai": 0.0829
+    }
+   ]
+  },
+  {
+   "no": 10,
+   "teks": "Pertumbuhan revenue Oktober dibanding September, persen 2 desimal (kalau turun, tulis dengan tanda minus).",
+   "tipe": "angka",
+   "baris": [
+    {
+     "kunci": "growth_okt_vs_sep",
+     "nilai": -28.69
+    }
+   ]
+  },
+  {
+   "no": 11,
+   "teks": "Kontribusi (%) region dengan revenue terbesar terhadap total, 2 desimal.",
+   "tipe": "angka",
+   "baris": [
+    {
+     "kunci": "persen_region_teratas",
+     "nilai": 23.03
+    }
+   ]
+  },
+  {
+   "no": 12,
+   "teks": "Jumlah transaksi dengan diskon minimal 10% (diskon >= 0,10).",
+   "tipe": "angka",
+   "baris": [
+    {
+     "kunci": "transaksi_diskon_10",
+     "nilai": 111
+    }
+   ]
+  },
+  {
+   "no": 13,
+   "teks": "Capaian revenue Bali terhadap target Bali (lihat tabel target di 1_Masalah), persen 2 desimal.",
+   "tipe": "angka",
+   "baris": [
+    {
+     "kunci": "capaian_target_bali",
+     "nilai": 344.09
+    }
+   ]
+  }
+ ],
+ "catatan": {
+  "region_top": "Jabodetabek"
+ }
+}
