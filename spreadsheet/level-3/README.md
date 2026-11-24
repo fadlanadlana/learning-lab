@@ -1,7 +1,7 @@
-# spreadsheet/level-3 — PivotTable & Power Query (format baru)
+# spreadsheet/level-3 — PivotTable & Power Query
 
-Dua workbook, dua fokus. Tiap workbook bentuknya sama: satu sheet masalah, satu sheet data mentah,
-satu sheet soal, satu sheet kerja untuk kamu, satu sheet kunci.
+Dua workbook, dua fokus. Workbook **tidak** memuat kunci jawaban: kunci disimpan terpisah di
+`pendukung/kunci/*.json` dan hanya dibaca penilai.
 
 ## Struktur folder
 
@@ -12,12 +12,12 @@ level-3/
 │   └── level-3-pembersihan-data.xlsx               120 baris data kotor, 12 soal, fokus Power Query
 ├── pendukung/
 │   ├── cek_kerja.py                           penilai otomatis (BENAR/SALAH per soal)
-│   └── kunci/*.json                           kunci mesin yang dibaca penilai
+│   └── kunci/*.json                           kunci jawaban (tidak ada di workbook)
 ├── _tools/gen_workbook.py                     generator kedua workbook
 └── README.md
 ```
 
-## Isi tiap workbook
+## Isi tiap workbook (4 sheet)
 
 | Sheet | Isi | Kamu sentuh? |
 |---|---|---|
@@ -25,7 +25,6 @@ level-3/
 | `2_Data` | data mentah apa adanya — jangan diubah | tidak |
 | `3_Soal` | 12-13 soal: pertanyaan, bentuk jawaban, letak jawaban | baca |
 | `4_Kerja` | blok jawaban SOAL / KUNCI BARIS / JAWABAN (kolom C kamu isi) + tempat pivot & Power Query | **ya** |
-| `5_Kunci` | nilai yang diharapkan per baris blok jawaban | buka terakhir |
 
 Blok jawaban ada di `4_Kerja` mulai baris 3. Kolom A (nomor soal) dan B (kunci baris) sudah
 disediakan; kamu hanya mengisi kolom C. Jangan pindahkan bloknya — penilai membaca dari situ.
@@ -47,8 +46,11 @@ python3 pendukung/cek_kerja.py latihan/level-3-pembersihan-data.xlsx
 python3 pendukung/cek_kerja.py latihan/level-3-pembersihan-data.xlsx --detail 5
 ```
 
-Penilai mencetak BENAR/SALAH per soal, skor, dan status. Untuk workbook pembersihan, penilai juga
-memeriksa tabel **DataBersih** (100 baris: `id_transaksi`, `kota_bersih`, `nilai`).
+Penilai mencetak BENAR/SALAH per soal, skor, dan status. `--detail N` menampilkan jawabanmu
+berdampingan dengan kunci untuk soal itu — jadi kunci tidak perlu terpampang di Excel.
+
+Untuk workbook pembersihan, penilai juga memeriksa tabel **DataBersih** (100 baris:
+`id_transaksi`, `kota_bersih`, `nilai`).
 
 ## Kriteria lulus
 
@@ -87,4 +89,4 @@ Pembersihan, 120 baris:
     kota unik setelah bersih        5
     rata-rata nilai bersih          1.755.500
 
-Angka lengkap dan resmi ada di `5_Kunci` dan `pendukung/kunci/*.json`.
+Angka lengkap dan resmi ada di `pendukung/kunci/*.json` — bukan di workbook.

@@ -303,21 +303,21 @@ def tulis_workbook(nama_file, judul, masalah, data_header, data_baris, soal, cat
 
     # ---- 3_Soal
     ws = wb.create_sheet("3_Soal")
-    judul_sheet(ws, "3. Soal - jawab di sheet 4_Kerja, blok A1", 5)
-    atur_lebar(ws, [8, 78, 22, 26, 16])
-    tulis_baris(ws, 3, ["No", "Pertanyaan", "Bentuk jawaban", "Letak jawaban", "Nilai di 5_Kunci"],
+    judul_sheet(ws, "3. Soal - jawab di sheet 4_Kerja, blok A1", 4)
+    atur_lebar(ws, [8, 82, 22, 30])
+    tulis_baris(ws, 3, ["No", "Pertanyaan", "Bentuk jawaban", "Letak jawaban"],
                 bold=True, fill=HEAD_FILL)
     r = 4
     for s in soal:
         bentuk = {"angka": "satu angka", "teks": "teks", "tabel": "%d baris angka" % len(s["baris"])}[s["tipe"]]
         label = ", ".join(b["kunci"] for b in s["baris"]) if len(s["baris"]) > 1 else s["baris"][0]["kunci"]
-        tulis_baris(ws, r, [s["no"], s["teks"], bentuk, "4_Kerja: " + label, "lihat 5_Kunci"])
+        tulis_baris(ws, r, [s["no"], s["teks"], bentuk, "4_Kerja: " + label])
         ws.cell(row=r, column=2).alignment = Alignment(wrap_text=True, vertical="top")
         ws.row_dimensions[r].height = 30
         r += 1
     r += 1
     ws.cell(row=r, column=2, value=catatan_kerja).alignment = Alignment(wrap_text=True, vertical="top")
-    ws.merge_cells(start_row=r, start_column=2, end_row=r, end_column=5)
+    ws.merge_cells(start_row=r, start_column=2, end_row=r, end_column=4)
     ws.row_dimensions[r].height = 60
 
     # ---- 4_Kerja (blok jawaban)
@@ -339,18 +339,9 @@ def tulis_workbook(nama_file, judul, masalah, data_header, data_baris, soal, cat
     ws.cell(row=baris_catatan, column=1,
             value=("Isi kolom C. Jangan pindahkan blok A3:C%d - penilai membaca dari situ. "
                    "Taruh pivot table / hasil Power Query di sebelah kanan blok (mulai kolom F) "
-                   "atau di sheet baru." % (r - 1))).font = Font(italic=True)
+                   "atau di sheet baru. Kunci jawaban tidak ada di workbook ini; penilai yang "
+                   "memegangnya (pendukung/kunci/)." % (r - 1))).font = Font(italic=True)
     ws.merge_cells(start_row=baris_catatan, start_column=1, end_row=baris_catatan, end_column=6)
-
-    # ---- 5_Kunci
-    ws = wb.create_sheet("5_Kunci")
-    judul_sheet(ws, "5. Kunci - buka setelah selesai mengerjakan", 4)
-    tulis_baris(ws, 3, ["SOAL", "KUNCI BARIS", "NILAI YANG DIHARAPKAN"], bold=True, fill=KUNCI_FILL)
-    r = 4
-    for s in soal:
-        for b in s["baris"]:
-            tulis_baris(ws, r, [s["no"], b["kunci"], b["nilai"]])
-            r += 1
 
     wb.save(os.path.join(LATIHAN, nama_file))
     return nama_file
