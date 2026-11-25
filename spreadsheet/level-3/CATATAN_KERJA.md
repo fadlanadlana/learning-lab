@@ -50,6 +50,16 @@ tidak ada di Windows — yang muncul dengan nama itu biasanya hanya stub Microso
 Store yang memunculkan pesan "install from the Microsoft Store". Kalau `python3`
 gagal, coba `python` atau `py`.
 
+**Kalau `python` tetap "not recognized"** padahal Python sudah terpasang: proses
+`explorer.exe` masih memegang PATH lama. Pilih salah satu:
+
+- Restart explorer: Task Manager → cari `Windows Explorer` → Restart. Lalu buka terminal baru.
+- Atau langsung panggil path absolutnya:
+  ```powershell
+  & "$env:LOCALAPPDATA\Programs\Python\Python312\python.exe" pendukung\cek_kerja.py latihan\level-3-dashboard-penjualan-pivot.xlsx
+  ```
+- Sementara di sesi yang sedang terbuka: `$env:Path = [Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [Environment]::GetEnvironmentVariable("Path","User")`
+
 ## Kriteria lulus
 
 - Dashboard: **13/13** soal benar.
