@@ -1,0 +1,90 @@
+{
+  "missing": {
+    "kategori": 100,
+    "satuan": 75,
+    "harga_beli": 62
+  },
+  "angka_teks": 350,
+  "teks": 675,
+  "invalid": 95,
+  "duplikat": 52,
+  "struktur": {
+    "dup_header_setelah": 6,
+    "baris_kosong": [
+      380,
+      1120,
+      2050
+    ],
+    "footer": true
+  },
+  "baris_bersih": 2498,
+  "file": "03-inventori-gudang.xlsx",
+  "judul": "Data Inventori Gudang (kotor)",
+  "baris_data_mentah_di_file": 2558,
+  "kolom": [
+    "sku",
+    "nama_produk",
+    "kategori",
+    "stok",
+    "satuan",
+    "harga_beli",
+    "gudang",
+    "tanggal_update"
+  ],
+  "baris_terbaca": 2555,
+  "header_duplikat": 1,
+  "baris_kosong": 3,
+  "baris_footer": 1,
+  "missing_per_kolom": {
+    "kategori": 101,
+    "satuan": 72,
+    "harga_beli": 62
+  },
+  "baris_kena_missing": 230,
+  "sel_angka_jadi_teks": 343,
+  "tanggal_jadi_teks": 0,
+  "variasi_teks": {
+    "kategori": {
+      "nilai_berbeda": 17,
+      "contoh": [
+        "Alat Tulis",
+        "ELEKTRONIK",
+        "Electronics",
+        "Elektronik",
+        "Fashion",
+        "Food",
+        "Home Living",
+        "MAKANAN"
+      ]
+    },
+    "satuan": {
+      "nilai_berbeda": 9,
+      "contoh": [
+        "PCS",
+        "Pcs",
+        "UNIT",
+        "Unit",
+        "box",
+        "buah",
+        "lusin",
+        "pcs"
+      ]
+    },
+    "gudang": {
+      "nilai_berbeda": 3,
+      "contoh": [
+        "Gudang A",
+        "Gudang B",
+        "Gudang C"
+      ]
+    }
+  },
+  "rekonsiliasi": {
+    "baris_terbaca": 2555,
+    "kurang_header_duplikat": 1,
+    "kurang_baris_kosong": 3,
+    "kurang_footer": 1,
+    "kurang_duplikat": 52,
+    "hasil": 2498
+  }
+}

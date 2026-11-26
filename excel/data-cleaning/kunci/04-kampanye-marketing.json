@@ -1,0 +1,69 @@
+{
+  "missing": {
+    "platform": 100,
+    "biaya": 75,
+    "klik": 50
+  },
+  "angka_teks": 750,
+  "teks": 350,
+  "invalid": 113,
+  "duplikat": 57,
+  "struktur": {
+    "dup_header_setelah": 8,
+    "baris_kosong": [
+      450,
+      1250,
+      2080
+    ],
+    "footer": true
+  },
+  "baris_bersih": 2498,
+  "file": "04-kampanye-marketing.xlsx",
+  "judul": "Data Kampanye Marketing (kotor)",
+  "baris_data_mentah_di_file": 2563,
+  "kolom": [
+    "campaign_id",
+    "tanggal",
+    "platform",
+    "impresi",
+    "klik",
+    "biaya",
+    "konversi",
+    "revenue"
+  ],
+  "baris_terbaca": 2560,
+  "header_duplikat": 1,
+  "baris_kosong": 3,
+  "baris_footer": 1,
+  "missing_per_kolom": {
+    "platform": 102,
+    "klik": 52,
+    "biaya": 77
+  },
+  "baris_kena_missing": 230,
+  "sel_angka_jadi_teks": 502,
+  "tanggal_jadi_teks": 253,
+  "variasi_teks": {
+    "platform": {
+      "nilai_berbeda": 21,
+      "contoh": [
+        "Adwords",
+        "FB",
+        "Facebook",
+        "Facebook Ads",
+        "GOOGLE",
+        "Google",
+        "Google Ads",
+        "LI"
+      ]
+    }
+  },
+  "rekonsiliasi": {
+    "baris_terbaca": 2560,
+    "kurang_header_duplikat": 1,
+    "kurang_baris_kosong": 3,
+    "kurang_footer": 1,
+    "kurang_duplikat": 57,
+    "hasil": 2498
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "missing": {
+    "email": 125,
+    "telepon": 88,
+    "segmen": 50
+  },
+  "angka_teks": 625,
+  "teks": 775,
+  "invalid": 113,
+  "duplikat": 52,
+  "struktur": {
+    "dup_header_setelah": 9,
+    "baris_kosong": [
+      520,
+      1310,
+      2140
+    ],
+    "footer": true
+  },
+  "baris_bersih": 2498,
+  "file": "02-pelanggan-crm.xlsx",
+  "judul": "Data Pelanggan CRM (kotor)",
+  "baris_data_mentah_di_file": 2558,
+  "kolom": [
+    "customer_id",
+    "nama",
+    "email",
+    "telepon",
+    "kota",
+    "tanggal_daftar",
+    "segmen",
+    "umur",
+    "total_belanja"
+  ],
+  "baris_terbaca": 2555,
+  "header_duplikat": 1,
+  "baris_kosong": 3,
+  "baris_footer": 1,
+  "missing_per_kolom": {
+    "email": 130,
+    "telepon": 87,
+    "segmen": 51
+  },
+  "baris_kena_missing": 264,
+  "sel_angka_jadi_teks": 329,
+  "tanggal_jadi_teks": 310,
+  "variasi_teks": {
+    "kota": {
+      "nilai_berbeda": 17,
+      "contoh": [
+        "BANDUNG",
+        "Bandung",
+        "DKI Jakarta",
+        "JAKARTA",
+        "JOGJA",
+        "Jakarta",
+        "Kota Bandung",
+        "Makassar"
+      ]
+    },
+    "segmen": {
+      "nilai_berbeda": 14,
+      "contoh": [
+        "BRONZE",
+        "Bronze",
+        "Emas",
+        "GOLD",
+        "Gold",
+        "PLATINUM",
+        "Perunggu",
+        "Plat"
+      ]
+    }
+  },
+  "rekonsiliasi": {
+    "baris_terbaca": 2555,
+    "kurang_header_duplikat": 1,
+    "kurang_baris_kosong": 3,
+    "kurang_footer": 1,
+    "kurang_duplikat": 52,
+    "hasil": 2498
+  }
+}

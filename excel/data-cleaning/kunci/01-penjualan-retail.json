@@ -1,0 +1,84 @@
+{
+  "missing": {
+    "kota": 112,
+    "diskon_pct": 75,
+    "total": 62
+  },
+  "angka_teks": 475,
+  "teks": 425,
+  "invalid": 113,
+  "duplikat": 57,
+  "struktur": {
+    "dup_header_setelah": 7,
+    "baris_kosong": [
+      410,
+      1180,
+      1990
+    ],
+    "footer": true
+  },
+  "baris_bersih": 2498,
+  "file": "01-penjualan-retail.xlsx",
+  "judul": "Data Penjualan Retail (kotor)",
+  "baris_data_mentah_di_file": 2563,
+  "kolom": [
+    "order_id",
+    "tanggal",
+    "pelanggan",
+    "kota",
+    "kanal",
+    "produk",
+    "qty",
+    "harga_satuan",
+    "diskon_pct",
+    "total"
+  ],
+  "baris_terbaca": 2560,
+  "header_duplikat": 1,
+  "baris_kosong": 3,
+  "baris_footer": 1,
+  "missing_per_kolom": {
+    "kota": 114,
+    "diskon_pct": 76,
+    "total": 64
+  },
+  "baris_kena_missing": 252,
+  "sel_angka_jadi_teks": 480,
+  "tanggal_jadi_teks": 0,
+  "variasi_teks": {
+    "kota": {
+      "nilai_berbeda": 24,
+      "contoh": [
+        "BANDUNG",
+        "Bandung",
+        "DKI Jakarta",
+        "JAKARTA",
+        "Jakarta",
+        "Kota Bandung",
+        "Kota Medan",
+        "MAKASSAR"
+      ]
+    },
+    "kanal": {
+      "nilai_berbeda": 18,
+      "contoh": [
+        "DISTRIBUTOR",
+        "Distribusi",
+        "Distributor",
+        "MARKETPLACE",
+        "MP",
+        "Market Place",
+        "Marketplace",
+        "RETAIL"
+      ]
+    }
+  },
+  "rekonsiliasi": {
+    "baris_terbaca": 2560,
+    "kurang_header_duplikat": 1,
+    "kurang_baris_kosong": 3,
+    "kurang_footer": 1,
+    "kurang_duplikat": 57,
+    "hasil": 2498
+  }
+}

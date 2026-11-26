@@ -1,0 +1,105 @@
+{
+  "missing": {
+    "jam_keluar": 100,
+    "departemen": 75,
+    "jam_kerja": 62
+  },
+  "angka_teks": 625,
+  "teks": 500,
+  "invalid": 88,
+  "duplikat": 52,
+  "struktur": {
+    "dup_header_setelah": 5,
+    "baris_kosong": [
+      600,
+      1400,
+      2200
+    ],
+    "footer": true
+  },
+  "baris_bersih": 2498,
+  "file": "05-kehadiran-karyawan.xlsx",
+  "judul": "Data Kehadiran Karyawan (kotor)",
+  "baris_data_mentah_di_file": 2558,
+  "kolom": [
+    "employee_id",
+    "nama",
+    "departemen",
+    "tanggal",
+    "jam_masuk",
+    "jam_keluar",
+    "jam_kerja",
+    "status"
+  ],
+  "baris_terbaca": 2555,
+  "header_duplikat": 1,
+  "baris_kosong": 3,
+  "baris_footer": 1,
+  "missing_per_kolom": {
+    "departemen": 75,
+    "jam_keluar": 103,
+    "jam_kerja": 57
+  },
+  "baris_kena_missing": 230,
+  "sel_angka_jadi_teks": 200,
+  "tanggal_jadi_teks": 177,
+  "variasi_teks": {
+    "departemen": {
+      "nilai_berbeda": 18,
+      "contoh": [
+        "FINANCE",
+        "Finance",
+        "HR",
+        "Human Resource",
+        "IT",
+        "Information Technology",
+        "Keuangan",
+        "MARKETING"
+      ]
+    },
+    "jam_masuk": {
+      "nilai_berbeda": 16,
+      "contoh": [
+        "07:00",
+        "08:00",
+        "09:00",
+        "18:00",
+        "7 AM",
+        "7.00",
+        "7.00 WIB",
+        "7:00"
+      ]
+    },
+    "jam_keluar": {
+      "nilai_berbeda": 5,
+      "contoh": [
+        "08:00",
+        "16:00",
+        "17:00",
+        "18:00",
+        "19:00"
+      ]
+    },
+    "status": {
+      "nilai_berbeda": 16,
+      "contoh": [
+        "HADIR",
+        "Hadir",
+        "IZIN",
+        "Izin",
+        "Late",
+        "Permission",
+        "Present",
+        "SAKIT"
+      ]
+    }
+  },
+  "rekonsiliasi": {
+    "baris_terbaca": 2555,
+    "kurang_header_duplikat": 1,
+    "kurang_baris_kosong": 3,
+    "kurang_footer": 1,
+    "kurang_duplikat": 52,
+    "hasil": 2498
+  }
+}
